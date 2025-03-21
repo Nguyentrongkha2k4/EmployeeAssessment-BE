@@ -7,14 +7,13 @@ on:
 
 jobs:
   deploy:
-    name: Build and Deploy to EC2
     runs-on: ubuntu-latest
 
     steps:
-      - name: 📥 Checkout Code
+      - name: 📥 Checkout code
         uses: actions/checkout@v3
 
-      - name: ☕ Set Up Java
+      - name: ☕ Set up Java
         uses: actions/setup-java@v3
         with:
           java-version: '21'
