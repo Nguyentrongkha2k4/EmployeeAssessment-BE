@@ -22,20 +22,22 @@ jobs:
       - name: 🛠️ Build with Maven
         run: mvn clean package -DskipTests
 
-      - name: 🔐 Set up SSH
+      - name: 🔐 Set up SSH and Known Hosts
         run: |
+          sudo apt-get update && sudo apt-get install -y rsync
           mkdir -p ~/.ssh
           echo "${{ secrets.EC2_SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
           chmod 600 ~/.ssh/id_ed25519
           ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts
 
-      - name: 📤 Copy JAR to EC2
+      - name: 📤 Copy JAR to EC2 using rsync
         run: |
-          scp target/*.jar ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }}:/home/${{ secrets.EC2_USER }}/app.jar
+          rsync -e "ssh -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=no" \
+            -avz target/*.jar ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }}:/home/${{ secrets.EC2_USER }}/app.jar
 
       - name: 🚀 Restart Spring Boot App on EC2
         run: |
-          ssh ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
+          ssh -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=no ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
             pkill -f 'java -jar' || true
             nohup java -jar /home/${{ secrets.EC2_USER }}/app.jar > app.log 2>&1 &
           EOF
