@@ -1,4 +1,4 @@
-package com.phucislearning.employeeassessmentbe;
+package com.brainnotfound.employeeassessmentbe;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
