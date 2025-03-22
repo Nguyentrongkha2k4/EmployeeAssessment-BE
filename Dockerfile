@@ -24,7 +24,7 @@ WORKDIR /app
 COPY --from=builder /app/target/EmployeeAssessment-BE-0.0.1-SNAPSHOT.jar app.jar
 
 # Copy file .env (dùng cho spring-dotenv)
-# COPY .env /app/.env
+COPY .env /app/.env
 
 # Thiết lập biến môi trường (port mặc định của Spring Boot)
 ENV PORT=8080
