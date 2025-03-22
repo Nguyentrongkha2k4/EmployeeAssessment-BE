@@ -2,12 +2,16 @@ package com.brainnotfound.employeeassessmentbe.controllers;
 
 import com.brainnotfound.employeeassessmentbe.models.User;
 import com.brainnotfound.employeeassessmentbe.services.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
 @RequestMapping("/users")
+@Tag(name = "User", description = "User API")
 public class UserController {
     private final UserService userService;
 
@@ -15,6 +19,10 @@ public class UserController {
         this.userService = userService;
     }
 
+    @Operation(summary = "Get all users")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Get all users")
+    })
     @GetMapping
     public List<User> getAllUsers() {
         return userService.getAllUsers();
@@ -22,9 +30,8 @@ public class UserController {
 
     @PostMapping
     public User createUser(@RequestBody User user) {
-        return
+        return userService.save(user);
     }
-
 
 
 }
