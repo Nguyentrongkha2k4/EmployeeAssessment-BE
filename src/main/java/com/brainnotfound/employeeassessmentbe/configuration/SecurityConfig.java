@@ -1,6 +1,5 @@
 package com.brainnotfound.employeeassessmentbe.configuration;
 
-import com.brainnotfound.employeeassessmentbe.services.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -35,7 +34,10 @@ public class SecurityConfig {
         "/api/auth/login",
         "/api/auth/register",
         "/v3/api-docs/**",
-        "/swagger-ui/**"
+        "/swagger-ui/**",
+            "/users/**",
+            "/criteria/**",
+            "/assessments/**",
     };
 
     @Bean
