@@ -1,4 +1,4 @@
-package com.brainnotfound.employeeassessmentbe;
+package com.brainnotfound.employeeassessmentbe.models;
 
 public class Identity {
     private String name;

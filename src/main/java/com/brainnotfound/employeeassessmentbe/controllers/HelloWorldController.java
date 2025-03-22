@@ -1,5 +1,6 @@
-package com.brainnotfound.employeeassessmentbe;
+package com.brainnotfound.employeeassessmentbe.controllers;
 
+import com.brainnotfound.employeeassessmentbe.models.Identity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
