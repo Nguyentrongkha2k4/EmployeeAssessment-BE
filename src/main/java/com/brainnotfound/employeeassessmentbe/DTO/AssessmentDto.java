@@ -1,7 +1,9 @@
 package com.brainnotfound.employeeassessmentbe.DTO;
 
 import com.brainnotfound.employeeassessmentbe.models.Assessment;
+import lombok.Data;
 
+@Data
 public class AssessmentDto {
 
     private Long userId;
@@ -24,38 +26,6 @@ public class AssessmentDto {
         this.criteriaId = assessment.getCriteria().getId();
         this.score = assessment.getScore();
         this.comment = assessment.getComment();
-    }
-
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
-
-    public Long getCriteriaId() {
-        return criteriaId;
-    }
-
-    public void setCriteriaId(Long criteriaId) {
-        this.criteriaId = criteriaId;
-    }
-
-    public Integer getScore() {
-        return score;
-    }
-
-    public void setScore(Integer score) {
-        this.score = score;
-    }
-
-    public String getComment() {
-        return comment;
-    }
-
-    public void setComment(String comment) {
-        this.comment = comment;
     }
 
     @Override

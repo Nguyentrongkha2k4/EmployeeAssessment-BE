@@ -1,5 +1,6 @@
 package com.brainnotfound.employeeassessmentbe.services;
 
+import com.brainnotfound.employeeassessmentbe.DTO.UserDto;
 import com.brainnotfound.employeeassessmentbe.models.User;
 import com.brainnotfound.employeeassessmentbe.repositories.UserRepository;
 
@@ -20,13 +21,7 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public boolean userLogin(User user) {
-        User userFound = userRepository.findByUsername(user.getUsername());
-        return userFound != null && userFound.getPassword().equals(user.getPassword());
-    }
-
-    public User save(User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword())); // Hash password
-        return userRepository.save(user);
+    public UserDto getUserByUsername(String username) {
+        return new UserDto(userRepository.findByUsername(username));
     }
 }
