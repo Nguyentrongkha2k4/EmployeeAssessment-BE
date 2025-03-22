@@ -19,7 +19,7 @@ public class LoginController {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
-
+    
     @PostMapping("/login")
     public ResponseEntity<Boolean> login(@RequestBody LoginRequest loginRequest) {
         try {
