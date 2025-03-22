@@ -11,7 +11,6 @@ public class Identity {
         this.isHuman = isHuman;
         this.isDev = isDev;
     }
-
     // Getters (required for JSON serialization)
     public String getName() {
         return name;

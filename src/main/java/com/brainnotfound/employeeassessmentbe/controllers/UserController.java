@@ -2,6 +2,7 @@ package com.brainnotfound.employeeassessmentbe.controllers;
 
 import com.brainnotfound.employeeassessmentbe.models.User;
 import com.brainnotfound.employeeassessmentbe.services.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -18,4 +19,12 @@ public class UserController {
     public List<User> getAllUsers() {
         return userService.getAllUsers();
     }
+
+    @PostMapping
+    public User createUser(@RequestBody User user) {
+        return
+    }
+
+
+
 }
