@@ -1,5 +1,7 @@
 package com.brainnotfound.employeeassessmentbe.DTO;
 
+import com.brainnotfound.employeeassessmentbe.models.Assessment;
+
 public class AssessmentDto {
 
     private Long userId;
@@ -15,6 +17,13 @@ public class AssessmentDto {
         this.criteriaId = criteriaId;
         this.score = score;
         this.comment = comment;
+    }
+
+    public AssessmentDto(Assessment assessment) {
+        this.userId = assessment.getUser().getId();
+        this.criteriaId = assessment.getCriteria().getId();
+        this.score = assessment.getScore();
+        this.comment = assessment.getComment();
     }
 
     public Long getUserId() {

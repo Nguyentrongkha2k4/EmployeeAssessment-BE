@@ -36,7 +36,8 @@ public class SecurityConfig {
         "/api/auth/register",
         "/v3/api-docs/**",
         "/swagger-ui/**",
-            "/criteria"
+            "/criteria/**",
+            "/assessments/**",
     };
 
     @Bean
