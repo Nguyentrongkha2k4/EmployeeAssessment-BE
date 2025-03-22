@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/criteria")
 public class CriteriaController {
@@ -17,5 +19,11 @@ public class CriteriaController {
     public ResponseEntity<Criteria> createCriteria(@RequestBody Criteria criteria) {
         Criteria saved = criteriaRepository.save(criteria);
         return ResponseEntity.status(201).body(saved);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Criteria>> getCriterias() {
+        List<Criteria> criterias = criteriaRepository.findAll();
+        return ResponseEntity.ok(criterias);
     }
 }
