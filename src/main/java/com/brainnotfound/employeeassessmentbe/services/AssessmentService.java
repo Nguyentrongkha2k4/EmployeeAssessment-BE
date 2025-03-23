@@ -11,6 +11,9 @@ import com.brainnotfound.employeeassessmentbe.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class AssessmentService {
 
@@ -23,7 +26,7 @@ public class AssessmentService {
     @Autowired
     private AssessmentRepository assessmentRepository;
 
-    public Assessment createAssessment(AssessmentDto dto) {
+    public AssessmentDto createAssessment(AssessmentDto dto) {
         User user = userRepository.findById(dto.getUserId())
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
@@ -36,6 +39,22 @@ public class AssessmentService {
         assessment.setScore(dto.getScore());
         assessment.setComment(dto.getComment());
 
-        return assessmentRepository.save(assessment);
+        assessmentRepository.save(assessment);
+        return new AssessmentDto(assessment);
+    }
+
+    public List<AssessmentDto> getAllAssessments() {
+        List<Assessment> assessments = assessmentRepository.findAll();
+        return assessments.stream().map(AssessmentDto::new).collect(Collectors.toList());
+    }
+
+    public AssessmentDto getAssessmentById(Long id) {
+        Assessment assessment = assessmentRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Assessment not found"));
+        return new AssessmentDto(assessment);
+    }
+
+    public void deleteAssessment(Long id) {
+        assessmentRepository.deleteById(id);
     }
 }
