@@ -30,8 +30,8 @@ jobs:
           uses: docker/build-push-action@v6
           id: docker_build
           with:
-            context: ./src           # Đặt build context là thư mục src
-            file: ./src/Dockerfile   # Đường dẫn đến tệp Dockerfile bên trong thư mục src
+            context: ./          # Đặt build context là thư mục src
+            file: ./Dockerfile   # Đường dẫn đến tệp Dockerfile bên trong thư mục src
             builder: ${{ steps.buildx.outputs.name }}
             push: true
             tags: ${{ secrets.DOCKERHUB_USERNAME }}/employeeassessment:latest
