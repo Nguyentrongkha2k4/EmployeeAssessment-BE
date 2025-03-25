@@ -48,7 +48,7 @@ public class SecurityConfig {
         httpSecurity
             .cors(cors -> cors.configurationSource(request -> {
                 var corsConfig = new CorsConfiguration();
-                corsConfig.setAllowedOrigins(List.of("http://localhost:8080", "http://localhost:3000"));
+                corsConfig.setAllowedOrigins(List.of("*"));
                 corsConfig.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
                 corsConfig.setAllowedHeaders(List.of("*"));
                 corsConfig.setExposedHeaders(List.of("Authorization", "Content-Type"));
@@ -60,13 +60,8 @@ public class SecurityConfig {
                 .requestMatchers(PUBLIC_ENDPOINTS).permitAll()
                 .anyRequest().authenticated()
             )
-            // .sessionManagement(session -> session
-            //     .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-            // )
-            // .authenticationProvider(authenticationProvider())
             .oauth2ResourceServer(oauth2 -> oauth2.jwt(jwtConfigurer -> 
                             jwtConfigurer.decoder(jwtDecoder()).jwtAuthenticationConverter(jwtAuthenticationConverter())));
-            // .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
         return httpSecurity.build();
     }
