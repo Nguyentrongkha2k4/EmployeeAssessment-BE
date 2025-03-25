@@ -1,6 +1,5 @@
 package com.brainnotfound.employeeassessmentbe.exception;
 
-import java.nio.file.AccessDeniedException;
 import java.text.ParseException;
 
 import org.apache.catalina.User;
@@ -20,10 +19,10 @@ import lombok.extern.slf4j.Slf4j;
 public class GlobalExceptionHandler {
     @ExceptionHandler(value = Exception.class)
     ResponseEntity<ResponseObject<User>> handlerUncategoriedException(Exception e){
-        ErrorCode errorCode = ErrorCode.UNCATEGORIED_EXCEPTION;
+        // ErrorCode errorCode = ErrorCode.UNCATEGORIED_EXCEPTION;
         return ResponseEntity.badRequest().body(ResponseObject.<User>builder()
                             .status(400)
-                            .message(errorCode.getMessage())
+                            .message(e.toString())
                             .build());
     }
 
@@ -36,6 +35,7 @@ public class GlobalExceptionHandler {
                             .build());
     }
 
+    @SuppressWarnings("null")
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
     ResponseEntity<ResponseObject<User>> handlerMethodArgumentNotValidException(MethodArgumentNotValidException e){
         String key = e.getFieldError().getDefaultMessage();
