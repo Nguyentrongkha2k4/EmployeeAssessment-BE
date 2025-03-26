@@ -48,7 +48,7 @@ public class SecurityConfig {
         httpSecurity
             .cors(cors -> cors.configurationSource(request -> {
                 var corsConfig = new CorsConfiguration();
-                corsConfig.setAllowedOrigins(List.of("*"));
+                corsConfig.setAllowedOrigins(List.of("http://localhost:8080", "http://localhost:3000", "https://employeeassessment.vercel.app"));
                 corsConfig.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
                 corsConfig.setAllowedHeaders(List.of("*"));
                 corsConfig.setExposedHeaders(List.of("Authorization", "Content-Type"));
