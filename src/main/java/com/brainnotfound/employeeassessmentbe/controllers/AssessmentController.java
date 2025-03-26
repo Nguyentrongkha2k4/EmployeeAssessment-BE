@@ -1,41 +1,62 @@
 package com.brainnotfound.employeeassessmentbe.controllers;
 
 import com.brainnotfound.employeeassessmentbe.DTO.AssessmentDto;
-import com.brainnotfound.employeeassessmentbe.models.Assessment;
+import com.brainnotfound.employeeassessmentbe.DTO.ResponseObject;
 import com.brainnotfound.employeeassessmentbe.services.AssessmentService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/assessments")
+@RequestMapping("/assessment")
 public class AssessmentController {
     @Autowired
     private AssessmentService assessmentService;
 
     @PostMapping
-    public ResponseEntity<AssessmentDto> createAssessment(@RequestBody AssessmentDto dto) {
-        AssessmentDto assessmentDto = assessmentService.createAssessment(dto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(assessmentDto);
+    public ResponseObject<AssessmentDto> createAssessment(@RequestBody AssessmentDto dto) {
+        return ResponseObject.<AssessmentDto>builder()
+                .status(201)
+                .message("Created")
+                .data(assessmentService.createAssessment(dto))
+                .build();
     }
 
-    @GetMapping
-    public ResponseEntity<List<AssessmentDto>> getAllAssessments() {
-        return new ResponseEntity<>(assessmentService.getAllAssessments(), HttpStatus.OK);
+    @GetMapping("/all")
+    public ResponseObject<List<AssessmentDto>> getAllAssessments() {
+        return ResponseObject.<List<AssessmentDto>>builder()
+                .status(200)
+                .message("Success")
+                .data(assessmentService.getAllAssessments())
+                .build();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<AssessmentDto> getAssessmentById(@PathVariable Long id) {
-        return new ResponseEntity<>(assessmentService.getAssessmentById(id), HttpStatus.OK);
+    public ResponseObject<AssessmentDto> getAssessmentById(@PathVariable Long id) {
+        return ResponseObject.<AssessmentDto>builder()
+                .status(200)
+                .message("Success")
+                .data(assessmentService.getAssessment(id))
+                .build();
+    }
+
+    @PutMapping("/{id}")
+    public ResponseObject<AssessmentDto> updateAssessment(@PathVariable Long id, @RequestBody AssessmentDto dto) {
+        return ResponseObject.<AssessmentDto>builder()
+                .status(200)
+                .message("Updated")
+                .data(assessmentService.updateAssessment(id, dto))
+                .build();
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteAssessment(@PathVariable Long id) {
+    public ResponseObject<Void> deleteAssessment(@PathVariable Long id) {
         assessmentService.deleteAssessment(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return ResponseObject.<Void>builder()
+                .status(204)
+                .message("Deleted")
+                .build();
     }
 
 }
