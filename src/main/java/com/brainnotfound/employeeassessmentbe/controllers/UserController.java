@@ -13,11 +13,10 @@ import lombok.RequiredArgsConstructor;
 
 import org.apache.commons.lang3.ObjectUtils.Null;
 import org.springframework.beans.BeanUtils;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 @RestController
@@ -56,6 +55,17 @@ public class UserController {
                                                                 .data(null)
                                                                 .build();
         return responseObject;
+    }
+
+    @GetMapping("/me")
+    public ResponseObject<UserResponse> getMe() {
+        String userId = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userService.getUserById(Long.parseLong(userId));
+        return ResponseObject.<UserResponse>builder()
+                .status(200)
+                .message("Success")
+                .data(userToUserResponse(user))
+                .build();
     }
 
 
