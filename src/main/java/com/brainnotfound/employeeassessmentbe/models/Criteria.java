@@ -17,11 +17,4 @@ public class Criteria {
     private String name;
 
     private String description;
-
-    // One criteria can have many assessments
-    @OneToMany(mappedBy = "criteria", cascade = CascadeType.ALL)
-    @JsonIgnore
-    private List<Assessment> assessments = new ArrayList<>();
-
-    // Getters and setters...
 }

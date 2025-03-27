@@ -58,6 +58,14 @@ public class AssessmentService {
         return null;
     }
 
+    public List<AssessmentDto> getMyAssessments(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        List<Assessment> assessments = assessmentRepository.getAssessmentByUser(user);
+        return assessments.stream().map(AssessmentDto::new).collect(Collectors.toList());
+    }
+
     public void deleteAssessment(Long id) {
         assessmentRepository.deleteById(id);
     }
