@@ -44,18 +44,22 @@ jobs:
             builder: ${{ steps.buildx.outputs.name }}
             push: true
             tags: ${{ secrets.DOCKERHUB_USERNAME }}/employeeassessment:latest
-        # Bước 5: redeploy Koyeb
+        # Step 7: Install Koyeb CLI from GitHub Releases
         - name: Install Koyeb CLI from GitHub Releases
           run: |
             curl -L https://github.com/koyeb/koyeb-cli/releases/latest/download/koyeb-linux-amd64 -o koyeb
             chmod +x koyeb
             sudo mv koyeb /usr/local/bin/
+  
+        # Step 8: Verify Koyeb installation
         - name: Verify Koyeb installation
           run: koyeb --version
-
+  
+        # Step 9: Authenticate Koyeb CLI using API key
         - name: Authenticate Koyeb CLI
           run: sudo koyeb auth login --api-key "${{ secrets.KOYEB_API_KEY }}"
-          
+  
+        # Step 10: Redeploy Koyeb service
         - name: Redeploy Koyeb Service
           run: koyeb service redeploy temporary-antonie/employeeassessment
       # - name: 📥 Checkout code
