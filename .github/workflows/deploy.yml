@@ -45,8 +45,11 @@ jobs:
             push: true
             tags: ${{ secrets.DOCKERHUB_USERNAME }}/employeeassessment:latest
         # Bước 5: redeploy Koyeb
-        - name: Install Koyeb CLI
-          run: curl -sSL https://get.koyeb.com | bash
+        - name: Install Koyeb CLI from GitHub Releases
+          run: |
+            curl -L https://github.com/koyeb/koyeb-cli/releases/latest/download/koyeb-linux-amd64 -o koyeb
+            chmod +x koyeb
+            sudo mv koyeb /usr/local/bin/
   
         - name: Authenticate Koyeb CLI
           run: koyeb auth login --api-key "${{ secrets.KOYEB_API_KEY }}"
