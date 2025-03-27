@@ -44,19 +44,14 @@ jobs:
             builder: ${{ steps.buildx.outputs.name }}
             push: true
             tags: ${{ secrets.DOCKERHUB_USERNAME }}/employeeassessment:latest
-        # Step 7: Install Koyeb CLI from GitHub Releases
-        - name: Install Koyeb CLI from GitHub Releases
+        # Step 5: Redeploy on Koyeb using API key
+        - name: Redeploy on Koyeb
           run: |
-            curl -fsSL https://raw.githubusercontent.com/koyeb/koyeb-cli/master/install.sh | sh
-            export PATH=$HOME/.koyeb/bin:$PATH
-  
-        # Step 9: Authenticate Koyeb CLI using API key
-        - name: Authenticate Koyeb CLI
-          run: home/runner/.koyeb/bin/koyeb login --token "${{ secrets.KOYEB_API_KEY }}"
-  
-        # Step 10: Redeploy Koyeb service
-        - name: Redeploy Koyeb Service
-          run: home/runner/.koyeb/bin/koyeb service redeploy temporary-antonie/employeeassessment
+            curl -X POST \
+              -H "Authorization: Bearer ${{ secrets.KOYEB_API_KEY }}" \
+              -H "Content-Type: application/json" \
+              -d '{"name": "temporary-antonie/employeeassessment"}' \
+              https://app.koyeb.com/v1/apps/0cfc4ead-6e20-4ba1-9409-2fa05436bd8f/deploy
       # - name: 📥 Checkout code
       #   uses: actions/checkout@v3
 
