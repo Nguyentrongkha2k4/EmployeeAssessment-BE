@@ -37,6 +37,9 @@ public class User {
     @Column(nullable = false)
     private String role;
 
+    @Column(name="supervisor")
+    private Long supervisor;
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Assessment> assessments;
