@@ -38,7 +38,4 @@ public class UserController {
         String username = jwtService.extractUsername(token);
         return ResponseEntity.ok(userService.getUserByUsername(username));
     }
-
-
-
 }
