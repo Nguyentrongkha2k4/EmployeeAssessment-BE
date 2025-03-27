@@ -50,10 +50,12 @@ jobs:
             curl -L https://github.com/koyeb/koyeb-cli/releases/latest/download/koyeb-linux-amd64 -o koyeb
             chmod +x koyeb
             sudo mv koyeb /usr/local/bin/
-  
+        - name: Verify Koyeb installation
+          run: koyeb --version
+
         - name: Authenticate Koyeb CLI
-          run: koyeb auth login --api-key "${{ secrets.KOYEB_API_KEY }}"
-  
+          run: sudo koyeb auth login --api-key "${{ secrets.KOYEB_API_KEY }}"
+          
         - name: Redeploy Koyeb Service
           run: koyeb service redeploy temporary-antonie/employeeassessment
       # - name: 📥 Checkout code
