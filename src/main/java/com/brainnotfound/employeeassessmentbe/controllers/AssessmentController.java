@@ -6,6 +6,9 @@ import com.brainnotfound.employeeassessmentbe.DTO.request.AssessmentReq;
 import com.brainnotfound.employeeassessmentbe.models.User;
 import com.brainnotfound.employeeassessmentbe.services.AssessmentService;
 import com.brainnotfound.employeeassessmentbe.services.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +22,10 @@ public class AssessmentController {
     @Autowired
     private AssessmentService assessmentService;
 
+    @Operation(summary = "Create assessment")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "201", description = "Created")
+    })
     @PostMapping
     public ResponseObject<AssessmentDto> createAssessment(@RequestBody AssessmentDto dto) {
         return ResponseObject.<AssessmentDto>builder()
@@ -28,6 +35,10 @@ public class AssessmentController {
                 .build();
     }
 
+    @Operation(summary = "Get all assessments")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Success")
+    })
     @GetMapping("/all")
     public ResponseObject<List<AssessmentDto>> getAllAssessments() {
         return ResponseObject.<List<AssessmentDto>>builder()
@@ -37,6 +48,11 @@ public class AssessmentController {
                 .build();
     }
 
+
+    @Operation(summary = "Get assessment by id")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Success")
+    })
     @GetMapping("/{id}")
     public ResponseObject<AssessmentDto> getAssessmentById(@PathVariable Long id) {
         return ResponseObject.<AssessmentDto>builder()
@@ -46,6 +62,10 @@ public class AssessmentController {
                 .build();
     }
 
+    @Operation(summary = "Update assessment")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Updated")
+    })
     @PutMapping("/{id}")
     public ResponseObject<AssessmentDto> updateAssessment(@PathVariable Long id, @RequestBody AssessmentDto dto) {
         return ResponseObject.<AssessmentDto>builder()
@@ -55,6 +75,10 @@ public class AssessmentController {
                 .build();
     }
 
+    @Operation(summary = "Delete assessment")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "204", description = "Deleted")
+    })
     @DeleteMapping("/{id}")
     public ResponseObject<Void> deleteAssessment(@PathVariable Long id) {
         assessmentService.deleteAssessment(id);
@@ -64,6 +88,20 @@ public class AssessmentController {
                 .build();
     }
 
+    @Operation(summary = "Get my assessments")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Success")
+    })
+    @GetMapping("/me")
+    public ResponseObject<List<AssessmentDto>> getMyAssessments() {
+        var userId = Long.parseLong(SecurityContextHolder.getContext().getAuthentication().getName());
+
+        return ResponseObject.<List<AssessmentDto>>builder()
+                .status(200)
+                .message("Success")
+                .data(assessmentService.getMyAssessments(userId))
+                .build();
+    }
     @GetMapping("/my/feedback")
     public ResponseObject<List<String>> getMyFeedback() {
         String userId = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -104,5 +142,6 @@ public class AssessmentController {
                 .message("Deleted")
                 .build();
     }
+
 
 }
