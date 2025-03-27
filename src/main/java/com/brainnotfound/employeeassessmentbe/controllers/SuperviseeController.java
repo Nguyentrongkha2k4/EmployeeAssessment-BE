@@ -60,18 +60,5 @@ public class SuperviseeController {
                 .data(new UserResponse(supervisee.getId(), supervisee.getUsername(), supervisee.getRole(), supervisee.getSupervisor().getId()))
                 .build();
     }
-    @Operation(summary = "Assign supervisor to supervisee")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Success"),
-            @ApiResponse(responseCode = "404", description = "User not found")
-    })
-    @PostMapping("/{superviseeId}/assignSupervisor/{supervisorId}")
-    public ResponseObject<Null> assignSupervisor(@PathVariable Long superviseeId, @PathVariable Long supervisorId) {
-        userService.assignSupervisor(superviseeId, supervisorId);
-        return ResponseObject.<Null>builder()
-                .status(200)
-                .message("Supervisor assigned successfully")
-                .data(null)
-                .build();
-    }
+
 }

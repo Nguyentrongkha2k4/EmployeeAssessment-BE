@@ -1,9 +1,5 @@
 package com.brainnotfound.employeeassessmentbe.models;
 
-import java.util.List;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -31,6 +27,5 @@ public class User {
     private String role;
 
     @ManyToOne
-    @JoinColumn(name = "supervisor_id")
     private User supervisor;
 }
