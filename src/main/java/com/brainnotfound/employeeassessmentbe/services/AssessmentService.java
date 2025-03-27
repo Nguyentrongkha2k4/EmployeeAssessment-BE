@@ -1,7 +1,6 @@
 package com.brainnotfound.employeeassessmentbe.services;
 
 import com.brainnotfound.employeeassessmentbe.DTO.AssessmentDto;
-import com.brainnotfound.employeeassessmentbe.controllers.AssessmentController;
 import com.brainnotfound.employeeassessmentbe.models.Assessment;
 import com.brainnotfound.employeeassessmentbe.models.Criteria;
 import com.brainnotfound.employeeassessmentbe.models.User;
@@ -48,10 +47,15 @@ public class AssessmentService {
         return assessments.stream().map(AssessmentDto::new).collect(Collectors.toList());
     }
 
-    public AssessmentDto getAssessmentById(Long id) {
+    public AssessmentDto getAssessment(Long id) {
         Assessment assessment = assessmentRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Assessment not found"));
         return new AssessmentDto(assessment);
+    }
+
+    public AssessmentDto updateAssessment(Long id, AssessmentDto dto) {
+        //TODO: do this
+        return null;
     }
 
     public void deleteAssessment(Long id) {
