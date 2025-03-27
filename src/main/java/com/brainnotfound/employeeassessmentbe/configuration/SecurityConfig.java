@@ -28,8 +28,6 @@ import lombok.RequiredArgsConstructor;
 @EnableMethodSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
-    // private final JwtAuthenticationFilter jwtAuthFilter;
-    // private final UserDetailsService userDetailsService;
     @Value("${jwt.secret_key}")
     private String SECRECT_KEY;
     private final String[] PUBLIC_ENDPOINTS = {
@@ -37,10 +35,7 @@ public class SecurityConfig {
         "/auth/login",
         "/auth/register",
         "/v3/api-docs/**",
-        "/swagger-ui/**",
-            "/users/**",
-            "/criteria/**",
-            "/assessments/**",
+        "/swagger-ui/**"
     };
 
     @Bean

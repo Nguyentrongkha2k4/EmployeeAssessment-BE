@@ -53,10 +53,23 @@ public class AssessmentService {
         return assessments.stream().map(AssessmentDto::new).collect(Collectors.toList());
     }
 
-    public AssessmentDto getAssessmentById(Long id) {
+    public AssessmentDto getAssessment(Long id) {
         Assessment assessment = assessmentRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Assessment not found"));
         return new AssessmentDto(assessment);
+    }
+
+    public AssessmentDto updateAssessment(Long id, AssessmentDto dto) {
+        //TODO: do this
+        return null;
+    }
+
+    public List<AssessmentDto> getMyAssessments(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        List<Assessment> assessments = assessmentRepository.getAssessmentByUser(user);
+        return assessments.stream().map(AssessmentDto::new).collect(Collectors.toList());
     }
 
     public void deleteAssessment(Long id) {
