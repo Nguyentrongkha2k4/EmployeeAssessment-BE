@@ -20,9 +20,7 @@ public class AssessmentController {
 
     @Operation(summary = "Create assessment")
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "201", description = "Created"),
-        @ApiResponse(responseCode = "400", description = "Bad Request"),
-        @ApiResponse(responseCode = "401", description = "Unauthorized"),
+        @ApiResponse(responseCode = "201", description = "Created")
     })
     @PostMapping
     public ResponseObject<AssessmentDto> createAssessment(@RequestBody AssessmentDto dto) {
@@ -35,8 +33,7 @@ public class AssessmentController {
 
     @Operation(summary = "Get all assessments")
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Success"),
-        @ApiResponse(responseCode = "401", description = "Unauthorized"),
+        @ApiResponse(responseCode = "200", description = "Success")
     })
     @GetMapping("/all")
     public ResponseObject<List<AssessmentDto>> getAllAssessments() {
@@ -50,9 +47,7 @@ public class AssessmentController {
 
     @Operation(summary = "Get assessment by id")
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Success"),
-        @ApiResponse(responseCode = "401", description = "Unauthorized"),
-        @ApiResponse(responseCode = "404", description = "Not Found"),
+        @ApiResponse(responseCode = "200", description = "Success")
     })
     @GetMapping("/{id}")
     public ResponseObject<AssessmentDto> getAssessmentById(@PathVariable Long id) {
@@ -65,10 +60,7 @@ public class AssessmentController {
 
     @Operation(summary = "Update assessment")
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Updated"),
-        @ApiResponse(responseCode = "400", description = "Bad Request"),
-        @ApiResponse(responseCode = "401", description = "Unauthorized"),
-        @ApiResponse(responseCode = "404", description = "Not Found"),
+        @ApiResponse(responseCode = "200", description = "Updated")
     })
     @PutMapping("/{id}")
     public ResponseObject<AssessmentDto> updateAssessment(@PathVariable Long id, @RequestBody AssessmentDto dto) {
@@ -81,9 +73,7 @@ public class AssessmentController {
 
     @Operation(summary = "Delete assessment")
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "204", description = "Deleted"),
-        @ApiResponse(responseCode = "401", description = "Unauthorized"),
-        @ApiResponse(responseCode = "404", description = "Not Found"),
+        @ApiResponse(responseCode = "204", description = "Deleted")
     })
     @DeleteMapping("/{id}")
     public ResponseObject<Void> deleteAssessment(@PathVariable Long id) {
@@ -96,8 +86,7 @@ public class AssessmentController {
 
     @Operation(summary = "Get my assessments")
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Success"),
-        @ApiResponse(responseCode = "401", description = "Unauthorized"),
+        @ApiResponse(responseCode = "200", description = "Success")
     })
     @GetMapping("/me")
     public ResponseObject<List<AssessmentDto>> getMyAssessments() {

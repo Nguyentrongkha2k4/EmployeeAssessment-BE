@@ -3,6 +3,7 @@ package com.brainnotfound.employeeassessmentbe.controllers;
 import com.brainnotfound.employeeassessmentbe.DTO.ResponseObject;
 import com.brainnotfound.employeeassessmentbe.DTO.request.UserRegisterRequest;
 import com.brainnotfound.employeeassessmentbe.DTO.response.UserResponse;
+import com.brainnotfound.employeeassessmentbe.mapper.UserMapper;
 import com.brainnotfound.employeeassessmentbe.models.User;
 import com.brainnotfound.employeeassessmentbe.services.UserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -12,7 +13,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 
 import org.apache.commons.lang3.ObjectUtils.Null;
-import org.springframework.beans.BeanUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,10 +25,11 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
+    private final UserMapper userMapper;
 
     @Operation(summary = "Get all users")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Get all users")
+            @ApiResponse(responseCode = "200")
     })
     @GetMapping("/getall")
     public ResponseObject<List<UserResponse>> getAllUsers() {
@@ -36,7 +37,7 @@ public class UserController {
                                                                                     .status(200)
                                                                                     .message("getAllUserSuccess")
                                                                                     .data(userService.getAllUsers().stream().map(
-                                                                                        (user)-> userToUserResponse(user)
+                                                                                        (user)-> userMapper.toUserResponse(user)
                                                                                     ).collect(Collectors.toList()))
                                                                                     .build();
         return responseObject;
@@ -44,7 +45,7 @@ public class UserController {
 
     @Operation(summary = "Register user")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "HR RegisterUser")
+            @ApiResponse(responseCode = "200")
     })
     @PostMapping("/register")
     public ResponseObject<Null> register(@RequestBody UserRegisterRequest request) {
@@ -57,6 +58,11 @@ public class UserController {
         return responseObject;
     }
 
+    @Operation(summary = "Get logged in user info")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Success")
+    })
+
     @GetMapping("/me")
     public ResponseObject<UserResponse> getMe() {
         String userId = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -64,14 +70,9 @@ public class UserController {
         return ResponseObject.<UserResponse>builder()
                 .status(200)
                 .message("Success")
-                .data(userToUserResponse(user))
+                .data(userMapper.toUserResponse(user))
                 .build();
     }
 
 
-    private UserResponse userToUserResponse(User user){
-        UserResponse userResponse = UserResponse.builder().build();
-        BeanUtils.copyProperties(user, userResponse);
-        return userResponse;
-    }
 }
