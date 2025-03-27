@@ -47,17 +47,12 @@ jobs:
         # Step 7: Install Koyeb CLI from GitHub Releases
         - name: Install Koyeb CLI from GitHub Releases
           run: |
-            curl -L https://github.com/koyeb/koyeb-cli/releases/latest/download/koyeb-linux-amd64 -o koyeb
-            chmod +x koyeb
-            sudo mv koyeb /usr/local/bin/
-  
-        # Step 8: Verify Koyeb installation
-        - name: Verify Koyeb installation
-          run: koyeb --version
+            curl -fsSL https://raw.githubusercontent.com/koyeb/koyeb-cli/master/install.sh | sh
+            export PATH=$HOME/.koyeb/bin:$PATH
   
         # Step 9: Authenticate Koyeb CLI using API key
         - name: Authenticate Koyeb CLI
-          run: sudo koyeb auth login --api-key "${{ secrets.KOYEB_API_KEY }}"
+          run: koyeb login --token "${{ secrets.KOYEB_API_KEY }}"
   
         # Step 10: Redeploy Koyeb service
         - name: Redeploy Koyeb Service
