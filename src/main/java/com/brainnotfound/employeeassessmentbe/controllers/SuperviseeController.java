@@ -1,15 +1,15 @@
 package com.brainnotfound.employeeassessmentbe.controllers;
 
+import com.brainnotfound.employeeassessmentbe.DTO.AssessmentDto;
 import com.brainnotfound.employeeassessmentbe.DTO.ResponseObject;
 import com.brainnotfound.employeeassessmentbe.DTO.response.UserResponse;
+import com.brainnotfound.employeeassessmentbe.models.User;
 import com.brainnotfound.employeeassessmentbe.services.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -28,8 +28,15 @@ public class SuperviseeController {
     })
     @GetMapping("/all")
     public ResponseObject<List<UserResponse>> getAllSupervisee() {
+        String userId = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userService.getUserById(Long.parseLong(userId));
+        List<UserResponse> supervisees = userService.getAllSupervisee(user);
         //TODO: implement get all supervisee of a supervisor
-        return null;
+        return ResponseObject.<List<UserResponse>>builder()
+                .status(200)
+                .message("Success")
+                .data(supervisees)
+                .build();
     }
 
     @Operation(summary = "Get supervisee by id")
@@ -39,6 +46,32 @@ public class SuperviseeController {
     @GetMapping("/{superviseeId}")
     public ResponseObject<UserResponse> getSupervisee(@PathVariable Long superviseeId) {
         //TODO: implement get supervisee by id
-        return null;
+        User supervisee = userService.getUserById(superviseeId);
+        if (supervisee == null) {
+            return ResponseObject.<UserResponse>builder()
+                    .status(404)
+                    .message("Supervisee not found")
+                    .data(null)
+                    .build();
+        }
+        return ResponseObject.<UserResponse>builder()
+                .status(200)
+                .message("Success")
+                .data(new UserResponse(supervisee.getId(), supervisee.getUsername(), supervisee.getRole(), supervisee.getSupervisor().getId()))
+                .build();
+    }
+    @Operation(summary = "Assign supervisor to supervisee")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Success"),
+            @ApiResponse(responseCode = "404", description = "User not found")
+    })
+    @PostMapping("/{superviseeId}/assignSupervisor/{supervisorId}")
+    public ResponseObject<Null> assignSupervisor(@PathVariable Long superviseeId, @PathVariable Long supervisorId) {
+        userService.assignSupervisor(superviseeId, supervisorId);
+        return ResponseObject.<Null>builder()
+                .status(200)
+                .message("Supervisor assigned successfully")
+                .data(null)
+                .build();
     }
 }
