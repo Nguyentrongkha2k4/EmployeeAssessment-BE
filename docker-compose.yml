@@ -1,0 +1,14 @@
+services:
+  spring-boot-app:
+    pull_policy: always
+    ports:
+      - "8080:8080"
+    env_file:
+      - .env
+    volumes:
+      - ./.env:/app/.env
+    image: nguyentrongkha2k4/employeeassessment:latest
+  # swagger-ui:
+  #   image: swaggerapi/swagger-ui
+  #   volumes:
+  #     - ./docs:/docs
