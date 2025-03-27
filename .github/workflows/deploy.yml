@@ -45,10 +45,14 @@ jobs:
             push: true
             tags: ${{ secrets.DOCKERHUB_USERNAME }}/employeeassessment:latest
         # Bước 5: redeploy Koyeb
-        - name: Trigger Koyeb Redeploy
-          run: |
-            curl -X POST "https://app.koyeb.com/v1/services/YOUR_SERVICE_ID/deploy" \
-            -H "Authorization: Bearer ${{ secrets.KOYEB_API_KEY }}"
+        - name: Install Koyeb CLI
+          run: curl -sSL https://get.koyeb.com | bash
+  
+        - name: Authenticate Koyeb CLI
+          run: koyeb auth login --api-key "${{ secrets.KOYEB_API_KEY }}"
+  
+        - name: Redeploy Koyeb Service
+          run: koyeb service redeploy temporary-antonie/employeeassessment
       # - name: 📥 Checkout code
       #   uses: actions/checkout@v3
 
