@@ -3,6 +3,7 @@ package com.brainnotfound.employeeassessmentbe.controllers;
 import com.brainnotfound.employeeassessmentbe.DTO.AssessmentDto;
 import com.brainnotfound.employeeassessmentbe.DTO.ResponseObject;
 import com.brainnotfound.employeeassessmentbe.DTO.request.AssessmentReq;
+import com.brainnotfound.employeeassessmentbe.DTO.response.AssessmentList;
 import com.brainnotfound.employeeassessmentbe.services.AssessmentService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -108,6 +109,7 @@ public class AssessmentController {
     public ResponseObject<List<String>> getMyFeedback() {
         String userId = SecurityContextHolder.getContext().getAuthentication().getName();
         long userIdLong = Long.parseLong(userId);
+        System.out.println(userIdLong);
         return ResponseObject.<List<String>>builder()
                 .status(200)
                 .message("Success")
@@ -157,5 +159,12 @@ public class AssessmentController {
                 .build();
     }
 
-
+    @GetMapping("/supervisee")
+    public ResponseObject<List<AssessmentList>> getMethodName() {
+        ResponseObject<List<AssessmentList>> responseObject = ResponseObject.<List<AssessmentList>>builder()
+                                                                                    .status(200)
+                                                                                    .data(assessmentService.getSuperviseeAssessment())
+                                                                                    .build();
+        return responseObject;
+    }
 }
