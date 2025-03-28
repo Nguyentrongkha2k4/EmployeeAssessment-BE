@@ -1,8 +1,9 @@
 package com.brainnotfound.employeeassessmentbe.controllers;
 
-import com.brainnotfound.employeeassessmentbe.DTO.AssessmentDto;
+import com.brainnotfound.employeeassessmentbe.DTO.response.AssessmentResponse;
 import com.brainnotfound.employeeassessmentbe.DTO.ResponseObject;
 import com.brainnotfound.employeeassessmentbe.DTO.request.AssessmentReq;
+import com.brainnotfound.employeeassessmentbe.DTO.response.AssessmentList;
 import com.brainnotfound.employeeassessmentbe.services.AssessmentService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -29,8 +30,8 @@ public class AssessmentController {
         @ApiResponse(responseCode = "201", description = "Created")
     })
     @PostMapping
-    public ResponseObject<AssessmentDto> createAssessment(@RequestBody AssessmentDto dto) {
-        return ResponseObject.<AssessmentDto>builder()
+    public ResponseObject<AssessmentResponse> createAssessment(@RequestBody AssessmentResponse dto) {
+        return ResponseObject.<AssessmentResponse>builder()
                 .status(201)
                 .message("Created")
                 .data(assessmentService.createAssessment(dto))
@@ -42,9 +43,9 @@ public class AssessmentController {
         @ApiResponse(responseCode = "200", description = "Success")
     })
     @GetMapping("/all")
-    public ResponseObject<List<AssessmentDto>> getAllAssessments() {
+    public ResponseObject<List<AssessmentResponse>> getAllAssessments() {
         Long supervisorId = getCurrentUserId();
-        return ResponseObject.<List<AssessmentDto>>builder()
+        return ResponseObject.<List<AssessmentResponse>>builder()
                 .status(200)
                 .message("success")
                 .data(assessmentService.getAllAssessments(supervisorId))
@@ -57,8 +58,8 @@ public class AssessmentController {
         @ApiResponse(responseCode = "200", description = "Success")
     })
     @GetMapping("/{id}")
-    public ResponseObject<AssessmentDto> getAssessmentById(@PathVariable Long id) {
-        return ResponseObject.<AssessmentDto>builder()
+    public ResponseObject<AssessmentResponse> getAssessmentById(@PathVariable Long id) {
+        return ResponseObject.<AssessmentResponse>builder()
                 .status(200)
                 .message("success")
                 .data(assessmentService.getAssessment(id))
@@ -70,8 +71,8 @@ public class AssessmentController {
         @ApiResponse(responseCode = "200", description = "Updated")
     })
     @PutMapping("/{id}")
-    public ResponseObject<AssessmentDto> updateAssessment(@PathVariable Long id, @RequestBody AssessmentDto dto) {
-        return ResponseObject.<AssessmentDto>builder()
+    public ResponseObject<AssessmentResponse> updateAssessment(@PathVariable Long id, @RequestBody AssessmentResponse dto) {
+        return ResponseObject.<AssessmentResponse>builder()
                 .status(200)
                 .message("Updated")
                 .data(assessmentService.updateAssessment(id, dto))
@@ -96,10 +97,10 @@ public class AssessmentController {
         @ApiResponse(responseCode = "200", description = "Success")
     })
     @GetMapping("/me")
-    public ResponseObject<List<AssessmentDto>> getMyAssessments() {
+    public ResponseObject<List<AssessmentResponse>> getMyAssessments() {
         var userId = Long.parseLong(SecurityContextHolder.getContext().getAuthentication().getName());
 
-        return ResponseObject.<List<AssessmentDto>>builder()
+        return ResponseObject.<List<AssessmentResponse>>builder()
                 .status(200)
                 .message("Success")
                 .data(assessmentService.getMyAssessments(userId))
@@ -114,6 +115,7 @@ public class AssessmentController {
     public ResponseObject<List<String>> getMyFeedback() {
         String userId = SecurityContextHolder.getContext().getAuthentication().getName();
         long userIdLong = Long.parseLong(userId);
+        System.out.println(userIdLong);
         return ResponseObject.<List<String>>builder()
                 .status(200)
                 .message("Success")
@@ -163,5 +165,12 @@ public class AssessmentController {
                 .build();
     }
 
-
+    @GetMapping("/supervisee")
+    public ResponseObject<List<AssessmentList>> getMethodName() {
+        ResponseObject<List<AssessmentList>> responseObject = ResponseObject.<List<AssessmentList>>builder()
+                                                                                    .status(200)
+                                                                                    .data(assessmentService.getSuperviseeAssessment())
+                                                                                    .build();
+        return responseObject;
+    }
 }

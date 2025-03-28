@@ -18,6 +18,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @RestController
 @RequestMapping("/user")
@@ -74,6 +77,10 @@ public class UserController {
                 .build();
     }
 
-
+    @GetMapping("/{id}")
+    public ResponseObject<User> getMethodName(@PathVariable Long id) {
+        return ResponseObject.<User>builder().status(200).message("ok").data(userService.getUserById(id)).build();
+    }
+    
 
 }

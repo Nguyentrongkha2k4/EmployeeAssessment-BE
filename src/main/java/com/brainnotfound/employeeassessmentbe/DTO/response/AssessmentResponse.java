@@ -1,27 +1,27 @@
-package com.brainnotfound.employeeassessmentbe.DTO;
+package com.brainnotfound.employeeassessmentbe.DTO.response;
 
 import com.brainnotfound.employeeassessmentbe.models.Assessment;
 import lombok.Data;
 
 @Data
-public class AssessmentDto {
+public class AssessmentResponse {
 
     private Long userId;
     private Long criteriaId;
     private Integer score;
     private String comment;
 
-    public AssessmentDto() {
+    public AssessmentResponse() {
     }
 
-    public AssessmentDto(Long userId, Long criteriaId, Integer score, String comment) {
+    public AssessmentResponse(Long userId, Long criteriaId, Integer score, String comment) {
         this.userId = userId;
         this.criteriaId = criteriaId;
         this.score = score;
         this.comment = comment;
     }
 
-    public AssessmentDto(Assessment assessment) {
+    public AssessmentResponse(Assessment assessment) {
         this.userId = assessment.getUser().getId();
         this.criteriaId = assessment.getCriteria().getId();
         this.score = assessment.getScore();
