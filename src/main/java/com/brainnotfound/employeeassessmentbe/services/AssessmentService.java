@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import com.brainnotfound.employeeassessmentbe.DTO.AssessmentDto;
+import com.brainnotfound.employeeassessmentbe.DTO.response.AssessmentResponse;
 import com.brainnotfound.employeeassessmentbe.DTO.request.AssessmentReq;
 import com.brainnotfound.employeeassessmentbe.DTO.response.AssessmentList;
 import com.brainnotfound.employeeassessmentbe.exception.AppException;
@@ -35,7 +35,7 @@ public class AssessmentService {
     @Autowired
     private AssessmentRepository assessmentRepository;
 
-    public AssessmentDto createAssessment(AssessmentDto dto) {
+    public AssessmentResponse createAssessment(AssessmentResponse dto) {
         User user = userRepository.findById(dto.getUserId())
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
 
@@ -49,21 +49,21 @@ public class AssessmentService {
         assessment.setComment(dto.getComment());
 
         assessmentRepository.save(assessment);
-        return new AssessmentDto(assessment);
+        return new AssessmentResponse(assessment);
     }
 
-    public List<AssessmentDto> getAllAssessments() {
+    public List<AssessmentResponse> getAllAssessments() {
         List<Assessment> assessments = assessmentRepository.findAll();
-        return assessments.stream().map(AssessmentDto::new).collect(Collectors.toList());
+        return assessments.stream().map(AssessmentResponse::new).collect(Collectors.toList());
     }
 
-    public AssessmentDto getAssessment(Long id) {
+    public AssessmentResponse getAssessment(Long id) {
         Assessment assessment = assessmentRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.ASSESSMENT_NOT_EXISTED));
-        return new AssessmentDto(assessment);
+        return new AssessmentResponse(assessment);
     }
 
-    public AssessmentDto updateAssessment(Long id, AssessmentDto dto) {
+    public AssessmentResponse updateAssessment(Long id, AssessmentResponse dto) {
         Assessment assessment = assessmentRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.ASSESSMENT_NOT_EXISTED));
 
@@ -79,51 +79,51 @@ public class AssessmentService {
         assessment.setComment(dto.getComment());
 
         assessmentRepository.save(assessment);
-        return new AssessmentDto(assessment);
+        return new AssessmentResponse(assessment);
     }
 
-    public List<AssessmentDto> getMyAssessments(Long userId) {
+    public List<AssessmentResponse> getMyAssessments(Long userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         List<Assessment> assessments = assessmentRepository.getAssessmentByUser(user);
-        return assessments.stream().map(AssessmentDto::new).collect(Collectors.toList());
+        return assessments.stream().map(AssessmentResponse::new).collect(Collectors.toList());
     }
 
     public void deleteAssessment(Long id) {
         assessmentRepository.deleteById(id);
     }
 
-    public List<AssessmentDto> getAssessmentByUserId(Long userId) {
+    public List<AssessmentResponse> getAssessmentByUserId(Long userId) {
         List<Assessment> assessments = assessmentRepository.findByUserId(userId);
         if (assessments.isEmpty()) {
             throw new AppException(ErrorCode.ASSESSMENT_NOT_EXISTED);
         }
-        return assessments.stream().map(AssessmentDto::new).collect(Collectors.toList());
+        return assessments.stream().map(AssessmentResponse::new).collect(Collectors.toList());
     }
 
     public List<String> getMyFeedback(Long userId) {
-        List<AssessmentDto> assessmentDto = getAssessmentByUserId(userId);
-        return assessmentDto.stream()
-                .map(AssessmentDto::getComment)
+        List<AssessmentResponse> assessmentResponse = getAssessmentByUserId(userId);
+        return assessmentResponse.stream()
+                .map(AssessmentResponse::getComment)
                 .collect(Collectors.toList());
     }
 
     public String postMyFeedback(long userIdLong, AssessmentReq req) {
-        AssessmentDto newAssessmentDto = new AssessmentDto(userIdLong, req.getCriteriaId(), req.getScore(), req.getComment());
-        createAssessment(newAssessmentDto);
-        return newAssessmentDto.getComment();
+        AssessmentResponse newAssessmentResponse = new AssessmentResponse(userIdLong, req.getCriteriaId(), req.getScore(), req.getComment());
+        createAssessment(newAssessmentResponse);
+        return newAssessmentResponse.getComment();
     }
 
     public String updateMyFeedback(long assessId, long userIdLong, AssessmentReq req) {
-        List<AssessmentDto> assessmentDto = getAssessmentByUserId(userIdLong);
+        List<AssessmentResponse> assessmentResponse = getAssessmentByUserId(userIdLong);
 
-        AssessmentDto newAssessmentDto = new AssessmentDto(userIdLong, req.getCriteriaId(), req.getScore(), req.getComment());
-        updateAssessment(assessId, newAssessmentDto);
-        return newAssessmentDto.getComment();
+        AssessmentResponse newAssessmentResponse = new AssessmentResponse(userIdLong, req.getCriteriaId(), req.getScore(), req.getComment());
+        updateAssessment(assessId, newAssessmentResponse);
+        return newAssessmentResponse.getComment();
     }
     public void deleteMyFeedback(long assessId, long userIdLong) {
-        List<AssessmentDto> assessmentDto = getAssessmentByUserId(userIdLong);
+        List<AssessmentResponse> assessmentResponse = getAssessmentByUserId(userIdLong);
         deleteAssessment(assessId);
     }
 

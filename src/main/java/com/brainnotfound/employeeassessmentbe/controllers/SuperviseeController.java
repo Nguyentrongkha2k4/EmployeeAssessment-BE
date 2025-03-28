@@ -1,6 +1,5 @@
 package com.brainnotfound.employeeassessmentbe.controllers;
 
-import com.brainnotfound.employeeassessmentbe.DTO.AssessmentDto;
 import com.brainnotfound.employeeassessmentbe.DTO.ResponseObject;
 import com.brainnotfound.employeeassessmentbe.DTO.response.UserResponse;
 import com.brainnotfound.employeeassessmentbe.models.User;
@@ -31,7 +30,6 @@ public class SuperviseeController {
         String userId = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userService.getUserById(Long.parseLong(userId));
         List<UserResponse> supervisees = userService.getAllSupervisee(user);
-        //TODO: implement get all supervisee of a supervisor
         return ResponseObject.<List<UserResponse>>builder()
                 .status(200)
                 .message("Success")
@@ -45,7 +43,6 @@ public class SuperviseeController {
     })
     @GetMapping("/{superviseeId}")
     public ResponseObject<UserResponse> getSupervisee(@PathVariable Long superviseeId) {
-        //TODO: implement get supervisee by id
         User supervisee = userService.getUserById(superviseeId);
         if (supervisee == null) {
             return ResponseObject.<UserResponse>builder()
