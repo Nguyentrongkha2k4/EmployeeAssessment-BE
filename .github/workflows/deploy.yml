@@ -47,11 +47,7 @@ jobs:
         # Step 5: Redeploy on Koyeb using API key
         - name: Redeploy on Koyeb
           run: |
-            curl -X POST \
-              -H "Authorization: Bearer ${{ secrets.KOYEB_API_KEY }}" \
-              -H "Content-Type: application/json" \
-              -d '{"name": "temporary-antonie/employeeassessment"}' \
-              https://app.koyeb.com/v1/apps/0cfc4ead-6e20-4ba1-9409-2fa05436bd8f/deploy
+            curl -X POST https://app.koyeb.com/v1/services/${{secret.KOYEB_ID}}/redeploy -H "Authorization: Bearer ${{secret.KOYEB_API_KEY}}" -H "Content-Type: application/json" -d "{ \"deployment_group\": \"prod\", \"use_cache\": true, \"skip_build\": false}"
       # - name: 📥 Checkout code
       #   uses: actions/checkout@v3
 
