@@ -19,6 +19,12 @@ public class AssessmentResponse {
 
     public AssessmentResponse() {
     }
+    public AssessmentResponse(Long userId, Long criteriaId, Integer score, String comment) {
+        this.userId = userId;
+        this.criteriaId = criteriaId;
+        this.score = score;
+        this.comment = comment;
+    }
 
     public AssessmentResponse(Long ID, Long userId, Long criteriaId, Integer score, String comment) {
         this.id = ID;
