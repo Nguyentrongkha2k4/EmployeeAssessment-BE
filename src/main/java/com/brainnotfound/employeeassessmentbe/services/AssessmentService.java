@@ -1,7 +1,16 @@
 package com.brainnotfound.employeeassessmentbe.services;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Service;
+
 import com.brainnotfound.employeeassessmentbe.DTO.AssessmentDto;
 import com.brainnotfound.employeeassessmentbe.DTO.request.AssessmentReq;
+import com.brainnotfound.employeeassessmentbe.DTO.response.AssessmentList;
 import com.brainnotfound.employeeassessmentbe.exception.AppException;
 import com.brainnotfound.employeeassessmentbe.exception.ErrorCode;
 import com.brainnotfound.employeeassessmentbe.models.Assessment;
@@ -10,14 +19,12 @@ import com.brainnotfound.employeeassessmentbe.models.User;
 import com.brainnotfound.employeeassessmentbe.repositories.AssessmentRepository;
 import com.brainnotfound.employeeassessmentbe.repositories.CriteriaRepository;
 import com.brainnotfound.employeeassessmentbe.repositories.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class AssessmentService {
+
+    @Autowired
+    private UserService userService;
 
     @Autowired
     private UserRepository userRepository;
@@ -118,5 +125,29 @@ public class AssessmentService {
     public void deleteMyFeedback(long assessId, long userIdLong) {
         List<AssessmentDto> assessmentDto = getAssessmentByUserId(userIdLong);
         deleteAssessment(assessId);
+    }
+
+    public List<AssessmentList> getSuperviseeAssessment(){
+        var context = SecurityContextHolder.getContext();
+        Long id = Long.parseLong(context.getAuthentication().getName());
+
+        User supvisor = userService.getUserById(id);
+
+        List<User> users = userRepository.findBySupervisor(supvisor);
+
+        // if (users.isEmpty()){
+        //     throw new AppException(ErrorCode.INVALID_KEY);
+        // }
+
+        List<AssessmentList> response = new ArrayList<AssessmentList>();
+        for (User user : users){
+            Assessment assessment = assessmentRepository.findByUser(user);
+            AssessmentList assessmentList = AssessmentList.builder()
+                                                            .id(assessment.getId())
+                                                            .user(user)
+                                                            .build();
+            response.add(assessmentList);
+        }
+        return response;
     }
 }
