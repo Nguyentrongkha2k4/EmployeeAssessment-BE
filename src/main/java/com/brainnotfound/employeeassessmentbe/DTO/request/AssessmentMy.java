@@ -1,6 +1,5 @@
 package com.brainnotfound.employeeassessmentbe.DTO.request;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 @Data

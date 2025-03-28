@@ -7,7 +7,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -50,7 +49,7 @@ public class CriteriaController {
         @ApiResponse(responseCode = "200", description = "Success")
     })
     @GetMapping("/{id}")
-    public ResponseObject<Criteria> getCriteriaById(@PathVariable("id") int id) {
+    public ResponseObject<Criteria> getCriteriaById(@PathVariable("id") Long id) {
         return ResponseObject.<Criteria>builder()
                 .status(200)
                 .message("success")
