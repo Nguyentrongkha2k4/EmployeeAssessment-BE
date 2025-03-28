@@ -1,5 +1,6 @@
 package com.brainnotfound.employeeassessmentbe.controllers;
 
+import com.brainnotfound.employeeassessmentbe.DTO.ResponseObject;
 import com.brainnotfound.employeeassessmentbe.models.Criteria;
 import com.brainnotfound.employeeassessmentbe.services.CriteriaService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -23,8 +24,12 @@ public class CriteriaController {
         @ApiResponse(responseCode = "201", description = "Created")
     })
     @PostMapping
-    public ResponseEntity<Criteria> createCriteria(@RequestBody Criteria criteria) {
-        return ResponseEntity.status(201).body(criteriaService.save(criteria));
+    public ResponseObject<Criteria> createCriteria(@RequestBody Criteria criteria) {
+        return ResponseObject.<Criteria>builder()
+                .status(201)
+                .message("created")
+                .data(criteriaService.save(criteria))
+                .build();
     }
 
     @Operation(summary = "Get all criteria")
@@ -32,8 +37,12 @@ public class CriteriaController {
         @ApiResponse(responseCode = "200", description = "Success")
     })
     @GetMapping
-    public ResponseEntity<List<Criteria>> getCriteria() {
-        return ResponseEntity.status(200).body(criteriaService.findAll());
+    public ResponseObject<List<Criteria>> getCriteria() {
+        return ResponseObject.<List<Criteria>>builder()
+                .status(200)
+                .message("success")
+                .data(criteriaService.findAll())
+                .build();
     }
 
     @Operation(summary = "Get criteria by id")
@@ -41,7 +50,11 @@ public class CriteriaController {
         @ApiResponse(responseCode = "200", description = "Success")
     })
     @GetMapping("/{id}")
-    public ResponseEntity<Criteria> getCriteriaById(@PathVariable int id) {
-        return ResponseEntity.status(200).body(criteriaService.findById(id));
+    public ResponseObject<Criteria> getCriteriaById(@PathVariable int id) {
+        return ResponseObject.<Criteria>builder()
+                .status(200)
+                .message("success")
+                .data(criteriaService.findById(id))
+                .build();
     }
 }

@@ -40,7 +40,7 @@ public class AssessmentController {
     public ResponseObject<List<AssessmentDto>> getAllAssessments() {
         return ResponseObject.<List<AssessmentDto>>builder()
                 .status(200)
-                .message("Success")
+                .message("success")
                 .data(assessmentService.getAllAssessments())
                 .build();
     }
@@ -54,7 +54,7 @@ public class AssessmentController {
     public ResponseObject<AssessmentDto> getAssessmentById(@PathVariable Long id) {
         return ResponseObject.<AssessmentDto>builder()
                 .status(200)
-                .message("Success")
+                .message("success")
                 .data(assessmentService.getAssessment(id))
                 .build();
     }
@@ -103,6 +103,7 @@ public class AssessmentController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Success")
     })
+
     @GetMapping("/my/feedback")
     public ResponseObject<List<String>> getMyFeedback() {
         String userId = SecurityContextHolder.getContext().getAuthentication().getName();
