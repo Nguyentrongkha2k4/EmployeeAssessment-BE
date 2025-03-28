@@ -116,20 +116,20 @@ public class AssessmentService {
                 .collect(Collectors.toList());
     }
 
-    public String postMyFeedback(long userIdLong, AssessmentReq req) {
+    public String postMyFeedback(Long userIdLong, AssessmentReq req) {
         AssessmentResponse newAssessmentResponse = new AssessmentResponse(userIdLong, req.getCriteriaId(), req.getScore(), req.getComment());
         createAssessment(newAssessmentResponse);
         return newAssessmentResponse.getComment();
     }
 
-    public String updateMyFeedback(long assessId, long userIdLong, AssessmentReq req) {
+    public String updateMyFeedback(Long assessId, Long userIdLong, AssessmentReq req) {
         List<AssessmentResponse> assessmentResponse = getAssessmentByUserId(userIdLong);
 
         AssessmentResponse newAssessmentResponse = new AssessmentResponse(userIdLong, req.getCriteriaId(), req.getScore(), req.getComment());
         updateAssessment(assessId, newAssessmentResponse);
         return newAssessmentResponse.getComment();
     }
-    public void deleteMyFeedback(long assessId, long userIdLong) {
+    public void deleteMyFeedback(Long assessId, Long userIdLong) {
         List<AssessmentResponse> assessmentResponse = getAssessmentByUserId(userIdLong);
         deleteAssessment(assessId);
     }

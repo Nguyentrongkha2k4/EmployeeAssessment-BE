@@ -109,7 +109,7 @@ public class AssessmentController {
     @GetMapping("/my/feedback")
     public ResponseObject<List<String>> getMyFeedback() {
         String userId = SecurityContextHolder.getContext().getAuthentication().getName();
-        long userIdLong = Long.parseLong(userId);
+        Long userIdLong = Long.parseLong(userId);
         System.out.println(userIdLong);
         return ResponseObject.<List<String>>builder()
                 .status(200)
@@ -124,7 +124,7 @@ public class AssessmentController {
     @PostMapping("/my/feedback")
     public ResponseObject<String> postMyFeedback(@RequestBody AssessmentReq req) {
         String userId = SecurityContextHolder.getContext().getAuthentication().getName();
-        long userIdLong = Long.parseLong(userId);
+        Long userIdLong = Long.parseLong(userId);
         return ResponseObject.<String>builder()
                 .status(201)
                 .message("Success created")
@@ -136,9 +136,9 @@ public class AssessmentController {
             @ApiResponse(responseCode = "200", description = "Success update")
     })
     @PutMapping("/my/feedback{assessId}")
-    public ResponseObject<String> updateMyFeedback(@PathVariable("assessId") long assessId, @RequestBody AssessmentReq req) {
+    public ResponseObject<String> updateMyFeedback(@PathVariable("assessId") Long assessId, @RequestBody AssessmentReq req) {
         String userId = SecurityContextHolder.getContext().getAuthentication().getName();
-        long userIdLong = Long.parseLong(userId);
+        Long userIdLong = Long.parseLong(userId);
         return ResponseObject.<String>builder()
                 .status(200)
                 .message("Success updated")
@@ -150,9 +150,9 @@ public class AssessmentController {
             @ApiResponse(responseCode = "204", description = "Success deleted")
     })
     @DeleteMapping("/my/feedback{assessId}")
-    public ResponseObject<String> deleteMyFeedback(@PathVariable("assessId") long assessId) {
+    public ResponseObject<String> deleteMyFeedback(@PathVariable("assessId") Long assessId) {
         String userId = SecurityContextHolder.getContext().getAuthentication().getName();
-        long userIdLong = Long.parseLong(userId);
+        Long userIdLong = Long.parseLong(userId);
         assessmentService.deleteMyFeedback(assessId, userIdLong);
         return ResponseObject.<String>builder()
                 .status(204)

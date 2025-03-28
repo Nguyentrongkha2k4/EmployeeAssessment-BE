@@ -11,6 +11,6 @@ public class AssessmentReq {
     private Long criteriaId;
     private Integer score;
     @JsonIgnore
-    private long userId;
+    private Long userId;
     private String comment;
 }

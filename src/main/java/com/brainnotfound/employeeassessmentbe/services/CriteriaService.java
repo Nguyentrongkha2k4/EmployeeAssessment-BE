@@ -19,7 +19,7 @@ public class CriteriaService {
     public List<Criteria> findAll() {
         return criteriaRepository.findAll();
     }
-    public Criteria findById(long id) {
+    public Criteria findById(Long id) {
         return criteriaRepository.findById(id).orElse(null);
     }
 }

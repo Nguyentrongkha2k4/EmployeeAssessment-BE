@@ -8,8 +8,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Getter
 public enum ErrorCode {
-    USERNAME_INVALID("Username must be at least 8 characters long."),
-    PASSWORD_INVALID("Password must be at least 5 characters long."),
+    USERNAME_INVALID("Username must be at least 8 characters Long."),
+    PASSWORD_INVALID("Password must be at least 5 characters Long."),
     INVALID_KEY("Invalid key."),
     USER_EXISTED("Username has already existed."),
     WRONG_PASSWORD("Password is not correct"),

@@ -8,7 +8,7 @@ import lombok.Data;
 
 @Data
 public class AssessmentResponse {
-    private long id;
+    private Long id;
 
     private Long userId;
     private Long criteriaId;
