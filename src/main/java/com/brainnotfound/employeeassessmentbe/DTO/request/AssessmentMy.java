@@ -7,7 +7,5 @@ import lombok.Data;
 public class AssessmentMy {
     private Long criteriaId;
     private Integer score;
-    @JsonIgnore
-    private Long userId;
     private String comment;
 }
