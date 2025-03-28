@@ -78,11 +78,11 @@ public class AssessmentService {
         // User user = userRepository.findById(dto.getUserId())
         //         .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
 
-        Criteria criteria = criteriaRepository.findById(dto.getCriteriaId())
-                .orElseThrow(() -> new AppException(ErrorCode.CRITERIA_NOT_EXISTED));
+        // Criteria criteria = criteriaRepository.findById(dto.getCriteriaId())
+        //         .orElseThrow(() -> new AppException(ErrorCode.CRITERIA_NOT_EXISTED));
 
         // assessment.setUser(user);
-        assessment.setCriteria(criteria);
+        // assessment.setCriteria(criteria);
         assessment.setScore(dto.getScore());
         assessment.setComment(dto.getComment());
 
