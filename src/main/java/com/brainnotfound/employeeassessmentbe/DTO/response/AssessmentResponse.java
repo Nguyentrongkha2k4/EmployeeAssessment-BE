@@ -1,10 +1,16 @@
 package com.brainnotfound.employeeassessmentbe.DTO.response;
 
 import com.brainnotfound.employeeassessmentbe.models.Assessment;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import lombok.Data;
 
 @Data
 public class AssessmentResponse {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
 
     private Long userId;
     private Long criteriaId;
@@ -14,7 +20,8 @@ public class AssessmentResponse {
     public AssessmentResponse() {
     }
 
-    public AssessmentResponse(Long userId, Long criteriaId, Integer score, String comment) {
+    public AssessmentResponse(Long ID, Long userId, Long criteriaId, Integer score, String comment) {
+        this.id = ID;
         this.userId = userId;
         this.criteriaId = criteriaId;
         this.score = score;
@@ -22,6 +29,7 @@ public class AssessmentResponse {
     }
 
     public AssessmentResponse(Assessment assessment) {
+        this.id = assessment.getId();
         this.userId = assessment.getUser().getId();
         this.criteriaId = assessment.getCriteria().getId();
         this.score = assessment.getScore();

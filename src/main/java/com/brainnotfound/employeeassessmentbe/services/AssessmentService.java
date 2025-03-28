@@ -117,7 +117,7 @@ public class AssessmentService {
     }
 
     public String postMyFeedback(long userIdLong, AssessmentReq req) {
-        AssessmentResponse newAssessmentResponse = new AssessmentResponse(userIdLong, req.getCriteriaId(), req.getScore(), req.getComment());
+        AssessmentResponse newAssessmentResponse = new AssessmentResponse(req.getId(), userIdLong, req.getCriteriaId(), req.getScore(), req.getComment());
         createAssessment(newAssessmentResponse);
         return newAssessmentResponse.getComment();
     }
@@ -125,7 +125,7 @@ public class AssessmentService {
     public String updateMyFeedback(long assessId, long userIdLong, AssessmentReq req) {
         List<AssessmentResponse> assessmentResponse = getAssessmentByUserId(userIdLong);
 
-        AssessmentResponse newAssessmentResponse = new AssessmentResponse(userIdLong, req.getCriteriaId(), req.getScore(), req.getComment());
+        AssessmentResponse newAssessmentResponse = new AssessmentResponse(req.getId(), userIdLong, req.getCriteriaId(), req.getScore(), req.getComment());
         updateAssessment(assessId, newAssessmentResponse);
         return newAssessmentResponse.getComment();
     }

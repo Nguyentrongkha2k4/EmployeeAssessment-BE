@@ -8,6 +8,6 @@ import org.springframework.stereotype.Component;
 public class AssessmentMapper {
 
     public AssessmentResponse toAssessmentDto(Assessment assessment) {
-        return new AssessmentResponse(assessment.getUser().getId(), assessment.getCriteria().getId(), assessment.getScore(), assessment.getComment());
+        return new AssessmentResponse(assessment.getId(), assessment.getUser().getId(), assessment.getCriteria().getId(), assessment.getScore(), assessment.getComment());
     }
 }
