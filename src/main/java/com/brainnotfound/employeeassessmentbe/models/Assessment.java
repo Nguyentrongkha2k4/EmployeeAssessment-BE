@@ -21,7 +21,7 @@ public class Assessment {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
-
+    
     // Many assessments belong to one criteria
     @ManyToOne
     @JoinColumn(name = "criteria_id")

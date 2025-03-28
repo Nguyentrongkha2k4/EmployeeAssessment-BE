@@ -18,6 +18,11 @@ public class AssessmentController {
     @Autowired
     private AssessmentService assessmentService;
 
+    private Long getCurrentUserId(){
+        String userIdString = SecurityContextHolder.getContext().getAuthentication().getName();
+        return Long.parseLong(userIdString);
+    }
+
     @Operation(summary = "Create assessment")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "201", description = "Created")
@@ -37,6 +42,7 @@ public class AssessmentController {
     })
     @GetMapping("/all")
     public ResponseObject<List<AssessmentDto>> getAllAssessments() {
+        Long supervisorId = getCurrentUserId();
         return ResponseObject.<List<AssessmentDto>>builder()
                 .status(200)
                 .message("Success")

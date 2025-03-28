@@ -28,7 +28,7 @@ public class AssessmentService {
     public AssessmentDto createAssessment(AssessmentDto dto) {
         User user = userRepository.findById(dto.getUserId())
                 .orElseThrow(() -> new RuntimeException("User not found"));
-
+        
         Criteria criteria = criteriaRepository.findById(dto.getCriteriaId())
                 .orElseThrow(() -> new RuntimeException("Criteria not found"));
 
