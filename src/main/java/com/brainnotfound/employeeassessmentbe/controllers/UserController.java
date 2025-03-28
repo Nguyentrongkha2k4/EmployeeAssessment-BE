@@ -78,7 +78,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseObject<User> getMethodName(@PathVariable Long id) {
+    public ResponseObject<User> getMethodName(@PathVariable("id") Long id) {
         return ResponseObject.<User>builder().status(200).message("ok").data(userService.getUserById(id)).build();
     }
     

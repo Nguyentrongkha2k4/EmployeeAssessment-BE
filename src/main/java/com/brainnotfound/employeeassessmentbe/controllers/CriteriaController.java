@@ -50,7 +50,7 @@ public class CriteriaController {
         @ApiResponse(responseCode = "200", description = "Success")
     })
     @GetMapping("/{id}")
-    public ResponseObject<Criteria> getCriteriaById(@PathVariable int id) {
+    public ResponseObject<Criteria> getCriteriaById(@PathVariable("id") int id) {
         return ResponseObject.<Criteria>builder()
                 .status(200)
                 .message("success")

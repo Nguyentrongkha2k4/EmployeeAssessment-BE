@@ -53,7 +53,7 @@ public class AssessmentController {
         @ApiResponse(responseCode = "200", description = "Success")
     })
     @GetMapping("/{id}")
-    public ResponseObject<AssessmentResponse> getAssessmentById(@PathVariable Long id) {
+    public ResponseObject<AssessmentResponse> getAssessmentById(@PathVariable("id") Long id) {
         return ResponseObject.<AssessmentResponse>builder()
                 .status(200)
                 .message("success")
@@ -66,7 +66,7 @@ public class AssessmentController {
         @ApiResponse(responseCode = "200", description = "Updated")
     })
     @PutMapping("/{id}")
-    public ResponseObject<AssessmentResponse> updateAssessment(@PathVariable Long id, @RequestBody AssessmentResponse dto) {
+    public ResponseObject<AssessmentResponse> updateAssessment(@PathVariable("id") Long id, @RequestBody AssessmentResponse dto) {
         return ResponseObject.<AssessmentResponse>builder()
                 .status(200)
                 .message("Updated")
@@ -79,7 +79,7 @@ public class AssessmentController {
         @ApiResponse(responseCode = "204", description = "Deleted")
     })
     @DeleteMapping("/{id}")
-    public ResponseObject<Void> deleteAssessment(@PathVariable Long id) {
+    public ResponseObject<Void> deleteAssessment(@PathVariable("id") Long id) {
         assessmentService.deleteAssessment(id);
         return ResponseObject.<Void>builder()
                 .status(204)
@@ -136,7 +136,7 @@ public class AssessmentController {
             @ApiResponse(responseCode = "200", description = "Success update")
     })
     @PutMapping("/my/feedback{assessId}")
-    public ResponseObject<String> updateMyFeedback(@PathVariable long assessId, @RequestBody AssessmentReq req) {
+    public ResponseObject<String> updateMyFeedback(@PathVariable("assessId") long assessId, @RequestBody AssessmentReq req) {
         String userId = SecurityContextHolder.getContext().getAuthentication().getName();
         long userIdLong = Long.parseLong(userId);
         return ResponseObject.<String>builder()
@@ -150,7 +150,7 @@ public class AssessmentController {
             @ApiResponse(responseCode = "204", description = "Success deleted")
     })
     @DeleteMapping("/my/feedback{assessId}")
-    public ResponseObject<String> deleteMyFeedback(@PathVariable long assessId) {
+    public ResponseObject<String> deleteMyFeedback(@PathVariable("assessId") long assessId) {
         String userId = SecurityContextHolder.getContext().getAuthentication().getName();
         long userIdLong = Long.parseLong(userId);
         assessmentService.deleteMyFeedback(assessId, userIdLong);

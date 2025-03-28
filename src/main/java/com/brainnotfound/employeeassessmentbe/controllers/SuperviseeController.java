@@ -42,7 +42,7 @@ public class SuperviseeController {
             @ApiResponse(responseCode = "200", description = "Success")
     })
     @GetMapping("/{superviseeId}")
-    public ResponseObject<UserResponse> getSupervisee(@PathVariable Long superviseeId) {
+    public ResponseObject<UserResponse> getSupervisee(@PathVariable("superviseeId") Long superviseeId) {
         User supervisee = userService.getUserById(superviseeId);
         if (supervisee == null) {
             return ResponseObject.<UserResponse>builder()
