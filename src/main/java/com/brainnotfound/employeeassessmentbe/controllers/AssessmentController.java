@@ -99,6 +99,10 @@ public class AssessmentController {
                 .data(assessmentService.getMyAssessments(userId))
                 .build();
     }
+    @Operation(summary = "Get my feedback")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Success")
+    })
     @GetMapping("/my/feedback")
     public ResponseObject<List<String>> getMyFeedback() {
         String userId = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -109,6 +113,10 @@ public class AssessmentController {
                 .data(assessmentService.getMyFeedback(userIdLong))
                 .build();
     }
+    @Operation(summary = "Post my feedback")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Success created")
+    })
     @PostMapping("/my/feedback")
     public ResponseObject<String> postMyFeedback(@RequestBody AssessmentReq req) {
         String userId = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -119,6 +127,10 @@ public class AssessmentController {
                 .data(assessmentService.postMyFeedback(userIdLong, req))
                 .build();
     }
+    @Operation(summary = "Update my feedback")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Success update")
+    })
     @PutMapping("/my/feedback{assessId}")
     public ResponseObject<String> updateMyFeedback(@PathVariable long assessId, @RequestBody AssessmentReq req) {
         String userId = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -129,6 +141,10 @@ public class AssessmentController {
                 .data(assessmentService.updateMyFeedback(assessId, userIdLong, req))
                 .build();
     }
+    @Operation(summary = "Delete my feedback")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Success deleted")
+    })
     @DeleteMapping("/my/feedback{assessId}")
     public ResponseObject<String> deleteMyFeedback(@PathVariable long assessId) {
         String userId = SecurityContextHolder.getContext().getAuthentication().getName();
