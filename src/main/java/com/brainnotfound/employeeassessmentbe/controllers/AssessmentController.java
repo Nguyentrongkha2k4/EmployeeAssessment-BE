@@ -47,7 +47,7 @@ public class AssessmentController {
         return ResponseObject.<List<AssessmentDto>>builder()
                 .status(200)
                 .message("success")
-                .data(assessmentService.getAllAssessments())
+                .data(assessmentService.getAllAssessments(supervisorId))
                 .build();
     }
 

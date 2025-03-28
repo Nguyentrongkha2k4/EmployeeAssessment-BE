@@ -45,9 +45,17 @@ public class AssessmentService {
         return new AssessmentDto(assessment);
     }
 
-    public List<AssessmentDto> getAllAssessments() {
-        List<Assessment> assessments = assessmentRepository.findAll();
+    public List<AssessmentDto> getAllAssessments(Long supervisorId) {
+        User supervisor = userRepository.findById(supervisorId)
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
+        List<User> supervisees = userRepository.findBySupervisor(supervisor);
+        List<Assessment> assessments = supervisees.stream()
+                .map(user -> assessmentRepository.getAssessmentByUser(user))
+                .flatMap(List::stream)
+                .collect(Collectors.toList());
         return assessments.stream().map(AssessmentDto::new).collect(Collectors.toList());
+        // List<Assessment> assessments = assessmentRepository.findAll();
+        // return assessments.stream().map(AssessmentDto::new).collect(Collectors.toList());
     }
 
     public AssessmentDto getAssessment(Long id) {
