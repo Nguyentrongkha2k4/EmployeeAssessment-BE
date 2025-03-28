@@ -14,6 +14,6 @@ import com.brainnotfound.employeeassessmentbe.models.User;
 public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByUsername(String username);
     boolean existsByUsername(String username);
-    List<User> findBySupervisor(Long supervisor);
-    
+    List<User> findBySupervisor(User supervisor);
+
 }

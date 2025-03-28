@@ -8,6 +8,7 @@ import com.brainnotfound.employeeassessmentbe.models.Assessment;
 import com.brainnotfound.employeeassessmentbe.models.User;
 
 public interface AssessmentRepository extends JpaRepository<Assessment, Long> {
+    List<Assessment> findByUserId(Long userId);
     List<Assessment> getAssessmentByUser(User user);
     Assessment findByUser(User user);
 }
