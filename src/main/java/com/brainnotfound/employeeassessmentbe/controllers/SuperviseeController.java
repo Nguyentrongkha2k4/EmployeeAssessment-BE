@@ -43,8 +43,10 @@ public class SuperviseeController {
     })
     @GetMapping("/{superviseeId}")
     public ResponseObject<UserResponse> getSupervisee(@PathVariable("superviseeId") Long superviseeId) {
+        String userId = SecurityContextHolder.getContext().getAuthentication().getName();
+        User supervisor = userService.getUserById(Long.parseLong(userId));
         User supervisee = userService.getUserById(superviseeId);
-        if (supervisee == null) {
+        if (supervisee == null || !supervisee.getSupervisor().getId().equals(supervisor.getId())) {
             return ResponseObject.<UserResponse>builder()
                     .status(404)
                     .message("Supervisee not found")
