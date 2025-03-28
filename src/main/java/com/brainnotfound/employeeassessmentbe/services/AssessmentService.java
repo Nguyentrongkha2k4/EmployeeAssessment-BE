@@ -9,7 +9,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.brainnotfound.employeeassessmentbe.DTO.response.AssessmentResponse;
-import com.brainnotfound.employeeassessmentbe.DTO.request.AssessmentReq;
+import com.brainnotfound.employeeassessmentbe.DTO.request.AssessmentMy;
 import com.brainnotfound.employeeassessmentbe.DTO.response.AssessmentList;
 import com.brainnotfound.employeeassessmentbe.exception.AppException;
 import com.brainnotfound.employeeassessmentbe.exception.ErrorCode;
@@ -116,13 +116,13 @@ public class AssessmentService {
                 .collect(Collectors.toList());
     }
 
-    public String postMyFeedback(Long userIdLong, AssessmentReq req) {
+    public String postMyFeedback(Long userIdLong, AssessmentMy req) {
         AssessmentResponse newAssessmentResponse = new AssessmentResponse(userIdLong, req.getCriteriaId(), req.getScore(), req.getComment());
         createAssessment(newAssessmentResponse);
         return newAssessmentResponse.getComment();
     }
 
-    public String updateMyFeedback(Long assessId, Long userIdLong, AssessmentReq req) {
+    public String updateMyFeedback(Long assessId, Long userIdLong, AssessmentMy req) {
         List<AssessmentResponse> assessmentResponse = getAssessmentByUserId(userIdLong);
 
         AssessmentResponse newAssessmentResponse = new AssessmentResponse(userIdLong, req.getCriteriaId(), req.getScore(), req.getComment());

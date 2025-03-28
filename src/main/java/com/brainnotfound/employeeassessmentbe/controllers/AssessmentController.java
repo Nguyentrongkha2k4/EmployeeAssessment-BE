@@ -2,7 +2,7 @@ package com.brainnotfound.employeeassessmentbe.controllers;
 
 import com.brainnotfound.employeeassessmentbe.DTO.response.AssessmentResponse;
 import com.brainnotfound.employeeassessmentbe.DTO.ResponseObject;
-import com.brainnotfound.employeeassessmentbe.DTO.request.AssessmentReq;
+import com.brainnotfound.employeeassessmentbe.DTO.request.AssessmentMy;
 import com.brainnotfound.employeeassessmentbe.DTO.response.AssessmentList;
 import com.brainnotfound.employeeassessmentbe.services.AssessmentService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -122,7 +122,7 @@ public class AssessmentController {
             @ApiResponse(responseCode = "201", description = "Success created")
     })
     @PostMapping("/my/feedback")
-    public ResponseObject<String> postMyFeedback(@RequestBody AssessmentReq req) {
+    public ResponseObject<String> postMyFeedback(@RequestBody AssessmentMy req) {
         String userId = SecurityContextHolder.getContext().getAuthentication().getName();
         Long userIdLong = Long.parseLong(userId);
         return ResponseObject.<String>builder()
@@ -136,7 +136,7 @@ public class AssessmentController {
             @ApiResponse(responseCode = "200", description = "Success update")
     })
     @PutMapping("/my/feedback{assessId}")
-    public ResponseObject<String> updateMyFeedback(@PathVariable("assessId") Long assessId, @RequestBody AssessmentReq req) {
+    public ResponseObject<String> updateMyFeedback(@PathVariable("assessId") Long assessId, @RequestBody AssessmentMy req) {
         String userId = SecurityContextHolder.getContext().getAuthentication().getName();
         Long userIdLong = Long.parseLong(userId);
         return ResponseObject.<String>builder()
