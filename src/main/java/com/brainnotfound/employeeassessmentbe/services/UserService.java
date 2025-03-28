@@ -3,7 +3,6 @@ package com.brainnotfound.employeeassessmentbe.services;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.brainnotfound.employeeassessmentbe.DTO.AssessmentDto;
 import com.brainnotfound.employeeassessmentbe.DTO.response.UserResponse;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
