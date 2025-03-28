@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.brainnotfound.employeeassessmentbe.DTO.response.AssessmentResponse;
 import com.brainnotfound.employeeassessmentbe.DTO.request.AssessmentMy;
+import com.brainnotfound.employeeassessmentbe.DTO.request.AssessmentRequest;
 import com.brainnotfound.employeeassessmentbe.DTO.response.AssessmentList;
 import com.brainnotfound.employeeassessmentbe.exception.AppException;
 import com.brainnotfound.employeeassessmentbe.exception.ErrorCode;
@@ -35,7 +36,7 @@ public class AssessmentService {
     @Autowired
     private AssessmentRepository assessmentRepository;
 
-    public AssessmentResponse createAssessment(AssessmentResponse dto) {
+    public AssessmentResponse createAssessment(AssessmentRequest dto) {
         User user = userRepository.findById(dto.getUserId())
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
 
@@ -70,17 +71,17 @@ public class AssessmentService {
         return new AssessmentResponse(assessment);
     }
 
-    public AssessmentResponse updateAssessment(Long id, AssessmentResponse dto) {
+    public AssessmentResponse updateAssessment(Long id, AssessmentRequest dto) {
         Assessment assessment = assessmentRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.ASSESSMENT_NOT_EXISTED));
 
-        User user = userRepository.findById(dto.getUserId())
-                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
+        // User user = userRepository.findById(dto.getUserId())
+        //         .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
 
         Criteria criteria = criteriaRepository.findById(dto.getCriteriaId())
                 .orElseThrow(() -> new AppException(ErrorCode.CRITERIA_NOT_EXISTED));
 
-        assessment.setUser(user);
+        // assessment.setUser(user);
         assessment.setCriteria(criteria);
         assessment.setScore(dto.getScore());
         assessment.setComment(dto.getComment());
@@ -117,17 +118,17 @@ public class AssessmentService {
     }
 
     public String postMyFeedback(Long userIdLong, AssessmentMy req) {
-        AssessmentResponse newAssessmentResponse = new AssessmentResponse(userIdLong, req.getCriteriaId(), req.getScore(), req.getComment());
-        createAssessment(newAssessmentResponse);
-        return newAssessmentResponse.getComment();
+        AssessmentRequest newAssessmentRequest = new AssessmentRequest(userIdLong, req.getCriteriaId(), req.getScore(), req.getComment());
+        createAssessment(newAssessmentRequest);
+        return newAssessmentRequest.getComment();
     }
 
     public String updateMyFeedback(Long assessId, Long userIdLong, AssessmentMy req) {
         List<AssessmentResponse> assessmentResponse = getAssessmentByUserId(userIdLong);
 
-        AssessmentResponse newAssessmentResponse = new AssessmentResponse(userIdLong, req.getCriteriaId(), req.getScore(), req.getComment());
-        updateAssessment(assessId, newAssessmentResponse);
-        return newAssessmentResponse.getComment();
+        AssessmentRequest newAssessmentRequest = new AssessmentRequest(userIdLong, req.getCriteriaId(), req.getScore(), req.getComment());
+        updateAssessment(assessId, newAssessmentRequest);
+        return newAssessmentRequest.getComment();
     }
     public void deleteMyFeedback(Long assessId, Long userIdLong) {
         List<AssessmentResponse> assessmentResponse = getAssessmentByUserId(userIdLong);
