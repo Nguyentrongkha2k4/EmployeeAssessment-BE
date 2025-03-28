@@ -8,7 +8,6 @@ import lombok.Data;
 
 @Data
 public class AssessmentResponse {
-    @Id
     private long id;
 
     private Long userId;
