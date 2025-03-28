@@ -14,6 +14,8 @@ public enum ErrorCode {
     USER_EXISTED("Username has already existed."),
     WRONG_PASSWORD("Password is not correct"),
     USER_NOT_EXISTED("User have not existed"),
+    CRITERIA_NOT_EXISTED("Criteria have not existed"),
+    ASSESSMENT_NOT_EXISTED("Assessment have not existed"),
     FAILED_GENERATE_TOKEN("failed when generating the token"),
     VERIFY_TOKEN_EXCEPTION("failed when verify token"),
     TOKEN_INVALID("Token is invalid."),

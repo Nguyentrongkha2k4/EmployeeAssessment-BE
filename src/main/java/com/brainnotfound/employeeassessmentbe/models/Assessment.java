@@ -19,12 +19,10 @@ public class Assessment {
 
     // Many assessments belong to one user
     @ManyToOne
-    @JoinColumn(name = "user_id")
     private User user;
     
     // Many assessments belong to one criteria
     @ManyToOne
-    @JoinColumn(name = "criteria_id")
     private Criteria criteria;
 
     private Integer score;

@@ -2,6 +2,7 @@ package com.brainnotfound.employeeassessmentbe.controllers;
 
 import com.brainnotfound.employeeassessmentbe.DTO.AssessmentDto;
 import com.brainnotfound.employeeassessmentbe.DTO.ResponseObject;
+import com.brainnotfound.employeeassessmentbe.DTO.request.AssessmentReq;
 import com.brainnotfound.employeeassessmentbe.services.AssessmentService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -45,7 +46,7 @@ public class AssessmentController {
         Long supervisorId = getCurrentUserId();
         return ResponseObject.<List<AssessmentDto>>builder()
                 .status(200)
-                .message("Success")
+                .message("success")
                 .data(assessmentService.getAllAssessments())
                 .build();
     }
@@ -59,7 +60,7 @@ public class AssessmentController {
     public ResponseObject<AssessmentDto> getAssessmentById(@PathVariable Long id) {
         return ResponseObject.<AssessmentDto>builder()
                 .status(200)
-                .message("Success")
+                .message("success")
                 .data(assessmentService.getAssessment(id))
                 .build();
     }
@@ -104,5 +105,63 @@ public class AssessmentController {
                 .data(assessmentService.getMyAssessments(userId))
                 .build();
     }
+    @Operation(summary = "Get my feedback")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Success")
+    })
+
+    @GetMapping("/my/feedback")
+    public ResponseObject<List<String>> getMyFeedback() {
+        String userId = SecurityContextHolder.getContext().getAuthentication().getName();
+        long userIdLong = Long.parseLong(userId);
+        return ResponseObject.<List<String>>builder()
+                .status(200)
+                .message("Success")
+                .data(assessmentService.getMyFeedback(userIdLong))
+                .build();
+    }
+    @Operation(summary = "Post my feedback")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Success created")
+    })
+    @PostMapping("/my/feedback")
+    public ResponseObject<String> postMyFeedback(@RequestBody AssessmentReq req) {
+        String userId = SecurityContextHolder.getContext().getAuthentication().getName();
+        long userIdLong = Long.parseLong(userId);
+        return ResponseObject.<String>builder()
+                .status(201)
+                .message("Success created")
+                .data(assessmentService.postMyFeedback(userIdLong, req))
+                .build();
+    }
+    @Operation(summary = "Update my feedback")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Success update")
+    })
+    @PutMapping("/my/feedback{assessId}")
+    public ResponseObject<String> updateMyFeedback(@PathVariable long assessId, @RequestBody AssessmentReq req) {
+        String userId = SecurityContextHolder.getContext().getAuthentication().getName();
+        long userIdLong = Long.parseLong(userId);
+        return ResponseObject.<String>builder()
+                .status(200)
+                .message("Success updated")
+                .data(assessmentService.updateMyFeedback(assessId, userIdLong, req))
+                .build();
+    }
+    @Operation(summary = "Delete my feedback")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Success deleted")
+    })
+    @DeleteMapping("/my/feedback{assessId}")
+    public ResponseObject<String> deleteMyFeedback(@PathVariable long assessId) {
+        String userId = SecurityContextHolder.getContext().getAuthentication().getName();
+        long userIdLong = Long.parseLong(userId);
+        assessmentService.deleteMyFeedback(assessId, userIdLong);
+        return ResponseObject.<String>builder()
+                .status(204)
+                .message("Deleted")
+                .build();
+    }
+
 
 }
