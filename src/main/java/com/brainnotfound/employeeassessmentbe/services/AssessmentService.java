@@ -101,7 +101,7 @@ public class AssessmentService {
 
     public List<AssessmentResponse> getMyAssessments(Long userId) {
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
 
         List<Assessment> assessments = assessmentRepository.getAssessmentByUser(user);
         return assessments.stream().map(AssessmentResponse::new).collect(Collectors.toList());
