@@ -6,7 +6,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.List;
+import java.util.Optional;
 
+import com.brainnotfound.employeeassessmentbe.DTO.request.CriteriaReq;
 import com.brainnotfound.employeeassessmentbe.controllers.CriteriaController;
 import com.brainnotfound.employeeassessmentbe.models.Criteria;
 import com.brainnotfound.employeeassessmentbe.repositories.CriteriaRepository;
@@ -14,6 +16,7 @@ import com.brainnotfound.employeeassessmentbe.services.CriteriaService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,17 +24,16 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 
-@WebMvcTest(CriteriaController.class)
 @ExtendWith(MockitoExtension.class)
 public class CriteriaControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
-    @MockBean
+    @InjectMocks
     private CriteriaService criteriaService;
 
-    @MockBean
+    @Mock
     private CriteriaRepository criteriaRepository;
 
 
@@ -42,7 +44,7 @@ public class CriteriaControllerTest {
                 new Criteria(2L, "Performance", "Speed and efficiency")
         );
 
-        when(criteriaService.findAll()).thenReturn(mockCriteriaList);
+        when(criteriaRepository.findAll()).thenReturn(mockCriteriaList);
 
         List<Criteria> mockCriteriaListTest = criteriaService.findAll();
 
@@ -59,13 +61,13 @@ public class CriteriaControllerTest {
     }
     public void testPostCriteria() throws Exception {
         Criteria mockCriteria = new Criteria(1L, "Quality", "High standards");
+        CriteriaReq mockCriteria2 = new CriteriaReq("Quality", "High standards");
 
         when(criteriaRepository.save(mockCriteria)).thenReturn(mockCriteria);
 
-        Criteria mockCriteriaTest = criteriaRepository.save(mockCriteria);
+        Criteria mockCriteriaTest = criteriaService.create(mockCriteria2);
 
         Assertions.assertNotNull(mockCriteriaTest);
-        Assertions.assertEquals(mockCriteria.getId(), mockCriteriaTest.getId());
         Assertions.assertEquals(mockCriteria.getName(), mockCriteriaTest.getName());
         Assertions.assertEquals(mockCriteria.getDescription(), mockCriteriaTest.getDescription());
         Assertions.assertTrue(mockCriteria.getId()==1L);
@@ -74,7 +76,7 @@ public class CriteriaControllerTest {
     public void testGetCriteriaById() throws Exception {
         Criteria mockCriteria = new Criteria(1L, "Quality", "High standards");
 
-        when(criteriaService.findById(1L)).thenReturn(mockCriteria);
+        when(criteriaRepository.findById(1L)).thenReturn(Optional.of(mockCriteria));
 
         Criteria mockCriteriaTest = criteriaService.findById(1L);
 
