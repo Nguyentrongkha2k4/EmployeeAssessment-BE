@@ -136,7 +136,7 @@ public class AssessmentController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Success update")
     })
-    @PutMapping("/my/feedback{assessId}")
+    @PutMapping("/my/feedback/{assessId}")
     public ResponseObject<String> updateMyFeedback(@PathVariable("assessId") Long assessId, @RequestBody AssessmentMy req) {
         String userId = SecurityContextHolder.getContext().getAuthentication().getName();
         Long userIdLong = Long.parseLong(userId);
@@ -150,7 +150,7 @@ public class AssessmentController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "Success deleted")
     })
-    @DeleteMapping("/my/feedback{assessId}")
+    @DeleteMapping("/my/feedback/{assessId}")
     public ResponseObject<String> deleteMyFeedback(@PathVariable("assessId") Long assessId) {
         String userId = SecurityContextHolder.getContext().getAuthentication().getName();
         Long userIdLong = Long.parseLong(userId);
