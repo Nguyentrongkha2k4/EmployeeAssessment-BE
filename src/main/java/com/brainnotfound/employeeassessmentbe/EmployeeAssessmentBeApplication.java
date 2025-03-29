@@ -1,8 +1,9 @@
 package com.brainnotfound.employeeassessmentbe;
 
-import io.github.cdimascio.dotenv.Dotenv;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+import io.github.cdimascio.dotenv.Dotenv;
 
 @SpringBootApplication
 public class EmployeeAssessmentBeApplication {
@@ -15,5 +16,4 @@ public class EmployeeAssessmentBeApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(EmployeeAssessmentBeApplication.class, args);
 	}
-
 }

@@ -5,4 +5,5 @@ import com.brainnotfound.employeeassessmentbe.models.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface CriteriaRepository extends JpaRepository<Criteria, Long> {
+    boolean existsByName(String name);
 }

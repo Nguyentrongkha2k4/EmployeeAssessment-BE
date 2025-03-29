@@ -1,6 +1,5 @@
 package com.brainnotfound.employeeassessmentbe.controllers;
 
-import com.brainnotfound.employeeassessmentbe.DTO.AssessmentDto;
 import com.brainnotfound.employeeassessmentbe.DTO.ResponseObject;
 import com.brainnotfound.employeeassessmentbe.DTO.response.UserResponse;
 import com.brainnotfound.employeeassessmentbe.models.User;
@@ -31,7 +30,6 @@ public class SuperviseeController {
         String userId = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userService.getUserById(Long.parseLong(userId));
         List<UserResponse> supervisees = userService.getAllSupervisee(user);
-        //TODO: implement get all supervisee of a supervisor
         return ResponseObject.<List<UserResponse>>builder()
                 .status(200)
                 .message("Success")
@@ -44,10 +42,11 @@ public class SuperviseeController {
             @ApiResponse(responseCode = "200", description = "Success")
     })
     @GetMapping("/{superviseeId}")
-    public ResponseObject<UserResponse> getSupervisee(@PathVariable Long superviseeId) {
-        //TODO: implement get supervisee by id
+    public ResponseObject<UserResponse> getSupervisee(@PathVariable("superviseeId") Long superviseeId) {
+        String userId = SecurityContextHolder.getContext().getAuthentication().getName();
+        User supervisor = userService.getUserById(Long.parseLong(userId));
         User supervisee = userService.getUserById(superviseeId);
-        if (supervisee == null) {
+        if (supervisee == null || !supervisee.getSupervisor().getId().equals(supervisor.getId())) {
             return ResponseObject.<UserResponse>builder()
                     .status(404)
                     .message("Supervisee not found")
