@@ -169,4 +169,17 @@ public class AssessmentController {
                                                                                     .build();
         return responseObject;
     }
+    @Operation(summary = "Get all assessments of a specific supervisee")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Success"),
+            @ApiResponse(responseCode = "403", description = "Forbidden")
+    })
+    @GetMapping("/supervisee/{id}")
+    public ResponseObject<List<AssessmentResponse>> getAssessmentsBySuperviseeId(@PathVariable("id") Long id) {
+        return ResponseObject.<List<AssessmentResponse>>builder()
+                .status(200)
+                .message("Success")
+                .data(assessmentService.getAssessmentsBySuperviseeId(id))
+                .build();
+    }
 }

@@ -60,6 +60,31 @@ public class SuperviseeController {
                 .build();
     }
 
-    
+    @Operation(summary = "Assign supervisor to supervisee")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Success"),
+            @ApiResponse(responseCode = "404", description = "User not found"),
+            @ApiResponse(responseCode = "403", description = "Forbidden")
+    })
+    @PostMapping("/assignSupervisor/{superviseeId}")
+    public ResponseObject<UserResponse> assignSupervisor(@PathVariable Long superviseeId) {
+        String userId = SecurityContextHolder.getContext().getAuthentication().getName();
+        Long supervisorId = Long.parseLong(userId);
+
+        if (superviseeId.equals(supervisorId)) {
+            return ResponseObject.<UserResponse>builder()
+                    .status(403)
+                    .message("Forbidden: Cannot assign yourself as your own supervisor")
+                    .data(null)
+                    .build();
+        }
+
+        userService.assignSupervisor(superviseeId, supervisorId);
+        return ResponseObject.<UserResponse>builder()
+                .status(200)
+                .message("Supervisor assigned successfully")
+                .data(null)
+                .build();
+    }
 
 }
