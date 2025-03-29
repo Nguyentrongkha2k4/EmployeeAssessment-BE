@@ -3,6 +3,7 @@ package com.brainnotfound.employeeassessmentbe.controllers;
 import com.brainnotfound.employeeassessmentbe.DTO.response.AssessmentResponse;
 import com.brainnotfound.employeeassessmentbe.DTO.ResponseObject;
 import com.brainnotfound.employeeassessmentbe.DTO.request.AssessmentMy;
+import com.brainnotfound.employeeassessmentbe.DTO.request.AssessmentRequest;
 import com.brainnotfound.employeeassessmentbe.DTO.response.AssessmentList;
 import com.brainnotfound.employeeassessmentbe.services.AssessmentService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -25,7 +26,7 @@ public class AssessmentController {
         @ApiResponse(responseCode = "201", description = "Created")
     })
     @PostMapping
-    public ResponseObject<AssessmentResponse> createAssessment(@RequestBody AssessmentResponse dto) {
+    public ResponseObject<AssessmentResponse> createAssessment(@RequestBody AssessmentRequest dto) {
         return ResponseObject.<AssessmentResponse>builder()
                 .status(201)
                 .message("Created")
@@ -66,7 +67,7 @@ public class AssessmentController {
         @ApiResponse(responseCode = "200", description = "Updated")
     })
     @PutMapping("/{id}")
-    public ResponseObject<AssessmentResponse> updateAssessment(@PathVariable("id") Long id, @RequestBody AssessmentResponse dto) {
+    public ResponseObject<AssessmentResponse> updateAssessment(@PathVariable("id") Long id, @RequestBody AssessmentRequest dto) {
         return ResponseObject.<AssessmentResponse>builder()
                 .status(200)
                 .message("Updated")
