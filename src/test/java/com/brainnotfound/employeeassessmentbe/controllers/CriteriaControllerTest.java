@@ -9,6 +9,7 @@ import java.util.List;
 
 import com.brainnotfound.employeeassessmentbe.controllers.CriteriaController;
 import com.brainnotfound.employeeassessmentbe.models.Criteria;
+import com.brainnotfound.employeeassessmentbe.repositories.CriteriaRepository;
 import com.brainnotfound.employeeassessmentbe.services.CriteriaService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -29,6 +30,10 @@ public class CriteriaControllerTest {
 
     @MockBean
     private CriteriaService criteriaService;
+
+    @MockBean
+    private CriteriaRepository criteriaRepository;
+
 
     @Test
     public void testGetCriteria() throws Exception {
@@ -51,5 +56,32 @@ public class CriteriaControllerTest {
             Assertions.assertEquals(mockCriteriaList.get(i).getDescription(), mockCriteriaListTest.get(i).getDescription());
         }
         Assertions.assertTrue(mockCriteriaList.size()==2);
+    }
+    public void testPostCriteria() throws Exception {
+        Criteria mockCriteria = new Criteria(1L, "Quality", "High standards");
+
+        when(criteriaRepository.save(mockCriteria)).thenReturn(mockCriteria);
+
+        Criteria mockCriteriaTest = criteriaRepository.save(mockCriteria);
+
+        Assertions.assertNotNull(mockCriteriaTest);
+        Assertions.assertEquals(mockCriteria.getId(), mockCriteriaTest.getId());
+        Assertions.assertEquals(mockCriteria.getName(), mockCriteriaTest.getName());
+        Assertions.assertEquals(mockCriteria.getDescription(), mockCriteriaTest.getDescription());
+        Assertions.assertTrue(mockCriteria.getId()==1L);
+    }
+
+    public void testGetCriteriaById() throws Exception {
+        Criteria mockCriteria = new Criteria(1L, "Quality", "High standards");
+
+        when(criteriaService.findById(1L)).thenReturn(mockCriteria);
+
+        Criteria mockCriteriaTest = criteriaService.findById(1L);
+
+        Assertions.assertNotNull(mockCriteriaTest);
+        Assertions.assertEquals(mockCriteria.getId(), mockCriteriaTest.getId());
+        Assertions.assertEquals(mockCriteria.getName(), mockCriteriaTest.getName());
+        Assertions.assertEquals(mockCriteria.getDescription(), mockCriteriaTest.getDescription());
+        Assertions.assertTrue(mockCriteria.getId()==1L);
     }
 }
