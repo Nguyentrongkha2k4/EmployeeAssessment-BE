@@ -42,6 +42,7 @@ public class CriteriaService {
         Criteria criteria = Criteria.builder().name(request.getName()).description(request.getDescription()).build();
 
         return criteriaRepository.save(criteria);
+    }
     public Criteria update(Long id, CriteriaReq criteriaReq){
         Criteria existingCriteria = criteriaRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.CRITERIA_NOT_EXISTED));
