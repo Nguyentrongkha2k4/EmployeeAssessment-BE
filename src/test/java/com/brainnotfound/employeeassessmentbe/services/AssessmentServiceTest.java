@@ -75,7 +75,7 @@ public class AssessmentServiceTest {
         assessment.setScore(assessmentRequest.getScore());
         assessment.setComment(assessmentRequest.getComment());
 
-        assessmentResponse = new AssessmentResponse(2L, 1L, 5, "Hoa chu 800 so");
+        assessmentResponse = new AssessmentResponse(2L, 1L, 5, "Hoa chu 800 so", null);
         assessmentRepository.save(assessment);
     }
 
