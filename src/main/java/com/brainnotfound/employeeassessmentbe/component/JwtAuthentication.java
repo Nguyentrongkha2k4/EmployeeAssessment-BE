@@ -50,7 +50,7 @@ public class JwtAuthentication {
         return "";
     }
 
-    String generateToken(User user) throws KeyLengthException, JOSEException{
+    public String generateToken(User user) throws KeyLengthException, JOSEException{
         JWSHeader jwsHeader = new JWSHeader(JWSAlgorithm.HS512);
 
         JWTClaimsSet jwtClaimsSet = new JWTClaimsSet.Builder()
@@ -71,7 +71,7 @@ public class JwtAuthentication {
     }
 
 
-    SignedJWT parSignedJWT(String token) throws ParseException{
+    public SignedJWT parSignedJWT(String token) throws ParseException{
         SignedJWT signedJWT = SignedJWT.parse(token);
         return signedJWT;
     }
