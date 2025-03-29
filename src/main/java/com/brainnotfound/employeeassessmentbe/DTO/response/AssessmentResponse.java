@@ -1,5 +1,7 @@
 package com.brainnotfound.employeeassessmentbe.DTO.response;
 
+import java.time.LocalDate;
+
 import com.brainnotfound.employeeassessmentbe.models.Assessment;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -14,22 +16,25 @@ public class AssessmentResponse {
     private Long criteriaId;
     private Integer score;
     private String comment;
+    private LocalDate updateAt;
 
     public AssessmentResponse() {
     }
-    public AssessmentResponse(Long userId, Long criteriaId, Integer score, String comment) {
+    public AssessmentResponse(Long userId, Long criteriaId, Integer score, String comment, LocalDate updateAt) {
         this.userId = userId;
         this.criteriaId = criteriaId;
         this.score = score;
         this.comment = comment;
+        this.updateAt = updateAt;
     }
 
-    public AssessmentResponse(Long ID, Long userId, Long criteriaId, Integer score, String comment) {
+    public AssessmentResponse(Long ID, Long userId, Long criteriaId, Integer score, String comment, LocalDate updateAt) {
         this.id = ID;
         this.userId = userId;
         this.criteriaId = criteriaId;
         this.score = score;
         this.comment = comment;
+        this.updateAt = updateAt;
     }
 
     public AssessmentResponse(Assessment assessment) {
@@ -38,6 +43,7 @@ public class AssessmentResponse {
         this.criteriaId = assessment.getCriteria().getId();
         this.score = assessment.getScore();
         this.comment = assessment.getComment();
+        this.updateAt = assessment.getUpdateAt();
     }
 
     @Override
@@ -46,7 +52,7 @@ public class AssessmentResponse {
                 "userId=" + userId +
                 ", criteriaId=" + criteriaId +
                 ", score=" + score +
-                ", comment='" + comment + '\'' +
+                ", comment='" + comment + ", updateAt=" + updateAt + '\'' +
                 '}';
     }
 }
