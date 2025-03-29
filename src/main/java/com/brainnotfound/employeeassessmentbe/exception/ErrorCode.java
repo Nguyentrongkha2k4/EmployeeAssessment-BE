@@ -24,6 +24,8 @@ public enum ErrorCode {
     DELETE_FAILED("Delete failed."),
     YOU_ARE_NOT_PERMITTED("You are not permitted to do this."),
     ROLE_INVALID("Role is invalid."),
+    CRITERIA_EXISTS("Criteria have already exists."),
+    ASSESSMENT_SCORE_INVALID("Assessment's score is invalid.")
     ;
     private String message;
 
