@@ -22,7 +22,10 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.MediaType;
 import java.util.Optional;
+import java.util.List;
 
+import com.brainnotfound.employeeassessmentbe.exception.AppException;
+import com.brainnotfound.employeeassessmentbe.exception.ErrorCode;
 
 import com.brainnotfound.employeeassessmentbe.DTO.request.AssessmentRequest;
 import com.brainnotfound.employeeassessmentbe.DTO.response.AssessmentResponse;
@@ -46,25 +49,18 @@ public class AssessmentServiceTest {
     @Mock
     private AssessmentRepository assessmentRepository;
 
-    private Long supervisorId;
     private AssessmentRequest assessmentRequest;
     private AssessmentResponse assessmentResponse;
     private User user;
-    private User supervisor;
     private Criteria criteria;
     private Assessment assessment;
 
     @BeforeEach
     public void setUp() {
-        supervisorId = 1L;
-
         assessmentRequest = new AssessmentRequest(2L, 1L, 5, "Hoa chu 800 so");
 
         user = new User();
         user.setId(2L);
-
-        supervisor = new User();
-        supervisor.setId(supervisorId);
 
         criteria = new Criteria();
         criteria.setId(1L);
@@ -91,6 +87,19 @@ public class AssessmentServiceTest {
         assertEquals(assessmentResponse.getCriteriaId(), response.getCriteriaId());
         assertEquals(assessmentResponse.getScore(), response.getScore());
         assertEquals(assessmentResponse.getComment(), response.getComment());
+    }
+
+    @Test
+    void AssessmentService_CreateAssessment_ScoreInvalid() throws Exception {
+        assessmentRequest.setScore(-1);
+        when(userRepository.findById(2L)).thenReturn(Optional.of(user));
+        when(criteriaRepository.findById(1L)).thenReturn(Optional.of(criteria));
+
+        try {
+            assessmentService.createAssessment(assessmentRequest);
+        } catch (AppException e) {
+            assertEquals(ErrorCode.ASSESSMENT_SCORE_INVALID, e.getErrorCode());
+        }
     }
 
     @Test
@@ -123,6 +132,78 @@ public class AssessmentServiceTest {
         assessmentService.deleteAssessment(1L);
 
         assertEquals(HttpStatus.OK.value(), HttpStatus.OK.value());
+    }
+
+    @Test
+    void AssessmentService_GetMyAssessments_Success() throws Exception {
+        when(userRepository.findById(2L)).thenReturn(Optional.of(user));
+        when(assessmentRepository.getAssessmentByUser(user)).thenReturn(List.of(assessment));
+
+        List<AssessmentResponse> response = assessmentService.getMyAssessments(2L);
+
+        assertEquals(1, response.size());
+        assertEquals(assessmentResponse.getUserId(), response.get(0).getUserId());
+        assertEquals(assessmentResponse.getCriteriaId(), response.get(0).getCriteriaId());
+        assertEquals(assessmentResponse.getScore(), response.get(0).getScore());
+        assertEquals(assessmentResponse.getComment(), response.get(0).getComment());
+    }
+
+    @Test
+    void AssessmentService_GetMyAssessments_UserNotFound() throws Exception {
+        when(userRepository.findById(2L)).thenReturn(Optional.empty());
+
+        try {
+            assessmentService.getMyAssessments(2L);
+        } catch (AppException e) {
+            assertEquals(ErrorCode.USER_NOT_EXISTED, e.getErrorCode());
+        }
+    }
+
+    @Test
+    void AssessmentService_GetAssessmentById_Success() throws Exception {
+        when(assessmentRepository.findById(1L)).thenReturn(Optional.of(assessment));
+
+        AssessmentResponse response = assessmentService.getAssessment(1L);
+
+        assertEquals(assessmentResponse.getUserId(), response.getUserId());
+        assertEquals(assessmentResponse.getCriteriaId(), response.getCriteriaId());
+        assertEquals(assessmentResponse.getScore(), response.getScore());
+        assertEquals(assessmentResponse.getComment(), response.getComment());
+    }
+
+    @Test
+    void AssessmentService_GetAssessmentById_NotFound() throws Exception {
+        when(assessmentRepository.findById(1L)).thenReturn(Optional.empty());
+
+        try {
+            assessmentService.getAssessment(1L);
+        } catch (AppException e) {
+            assertEquals(ErrorCode.ASSESSMENT_NOT_EXISTED, e.getErrorCode());
+        }
+    }
+
+    @Test
+    void AssessmentService_getAssessmentByUserId_Success() throws Exception {
+        when(assessmentRepository.findByUserId(2L)).thenReturn(List.of(assessment));
+
+        List<AssessmentResponse> response = assessmentService.getAssessmentByUserId(2L);
+
+        assertEquals(1, response.size());
+        assertEquals(assessmentResponse.getUserId(), response.get(0).getUserId());
+        assertEquals(assessmentResponse.getCriteriaId(), response.get(0).getCriteriaId());
+        assertEquals(assessmentResponse.getScore(), response.get(0).getScore());
+        assertEquals(assessmentResponse.getComment(), response.get(0).getComment());
+    }
+
+    @Test
+    void AssessmentService_getAssessmentByUserId_NotFound() throws Exception {
+        when(assessmentRepository.findByUserId(2L)).thenReturn(List.of());
+
+        try {
+            assessmentService.getAssessmentByUserId(2L);
+        } catch (AppException e) {
+            assertEquals(ErrorCode.ASSESSMENT_NOT_EXISTED, e.getErrorCode());
+        }
     }
 }
 
