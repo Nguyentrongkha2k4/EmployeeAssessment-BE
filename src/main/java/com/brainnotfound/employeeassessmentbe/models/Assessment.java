@@ -1,5 +1,9 @@
 package com.brainnotfound.employeeassessmentbe.models;
 
+import java.time.LocalDate;
+
+import org.springframework.cglib.core.Local;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -32,4 +36,6 @@ public class Assessment {
 
     private Integer score;
     private String comment;
+
+    private LocalDate updateAt;
 }
