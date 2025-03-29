@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -20,6 +23,8 @@ import com.brainnotfound.employeeassessmentbe.models.User;
 import com.brainnotfound.employeeassessmentbe.repositories.AssessmentRepository;
 import com.brainnotfound.employeeassessmentbe.repositories.CriteriaRepository;
 import com.brainnotfound.employeeassessmentbe.repositories.UserRepository;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 @Service
 public class AssessmentService {
@@ -157,5 +162,20 @@ public class AssessmentService {
             response.add(assessmentList);
         }
         return response;
+    }
+
+    public List<AssessmentResponse> getAssessmentsBySuperviseeId(Long superviseeId) {
+        Long supervisorId = Long.parseLong(SecurityContextHolder.getContext().getAuthentication().getName());
+        User supervisor = userRepository.findById(supervisorId)
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
+        User supervisee = userRepository.findById(superviseeId)
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
+
+        if (!supervisee.getSupervisor().getId().equals(supervisor.getId())) {
+            throw new AppException(ErrorCode.USER_NOT_EXISTED);
+        }
+
+        List<Assessment> assessments = assessmentRepository.getAssessmentByUser(supervisee);
+        return assessments.stream().map(AssessmentResponse::new).collect(Collectors.toList());
     }
 }

@@ -24,6 +24,7 @@ public enum ErrorCode {
     DELETE_FAILED("Delete failed."),
     YOU_ARE_NOT_PERMITTED("You are not permitted to do this."),
     ROLE_INVALID("Role is invalid."),
+    FORBIDDEN("You are not allowed to do this."),
     ;
     private String message;
 
