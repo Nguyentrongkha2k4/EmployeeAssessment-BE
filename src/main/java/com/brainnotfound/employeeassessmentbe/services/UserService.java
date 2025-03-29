@@ -49,6 +49,13 @@ public class UserService {
                 .map(user -> new UserResponse(user.getId(), user.getUsername(), user.getRole(), supervisor.getId()))
                 .collect(Collectors.toList());
     }
-
+    public void assignSupervisor(Long superviseeId, Long supervisorId) {
+        User supervisee = userRepository.findById(superviseeId)
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
+        User supervisor = userRepository.findById(supervisorId)
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
+        supervisee.setSupervisor(supervisor);
+        userRepository.save(supervisee);
+    }
 
 }

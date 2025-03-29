@@ -1,16 +1,26 @@
 package com.brainnotfound.employeeassessmentbe.controllers;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.brainnotfound.employeeassessmentbe.DTO.ResponseObject;
 import com.brainnotfound.employeeassessmentbe.DTO.request.CriteriaReq;
+import com.brainnotfound.employeeassessmentbe.DTO.request.CriteriaRequest;
 import com.brainnotfound.employeeassessmentbe.models.Criteria;
 import com.brainnotfound.employeeassessmentbe.services.CriteriaService;
+
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/criteria")
@@ -24,7 +34,7 @@ public class CriteriaController {
         @ApiResponse(responseCode = "201", description = "Created")
     })
     @PostMapping
-    public ResponseObject<Criteria> createCriteria(@RequestBody CriteriaReq criteria) {
+    public ResponseObject<Criteria> createCriteria(@RequestBody CriteriaRequest criteria) {
         return ResponseObject.<Criteria>builder()
                 .status(201)
                 .message("created")
