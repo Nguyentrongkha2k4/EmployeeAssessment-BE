@@ -64,4 +64,32 @@ public class CriteriaController {
                 .data(criteriaService.findById(id))
                 .build();
     }
+
+    @Operation(summary = "Update criteria")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Success")
+    })
+    @PutMapping("/{id}")
+    public ResponseObject<Criteria> updateCriteria(@PathVariable("id") Long id, @RequestBody CriteriaReq req) {
+
+        return ResponseObject.<Criteria>builder()
+                .status(200)
+                .message("success")
+                .data(criteriaService.update(id, req))
+                .build();
+    }
+
+    @Operation(summary = "Delete criteria")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Success")
+    })
+    @DeleteMapping("/{id}")
+    public ResponseObject<String> deleteCriteria(@PathVariable("id") Long id) {
+        criteriaService.delete(id);
+        return ResponseObject.<String>builder()
+                .status(200)
+                .message("success")
+                .data("deleted")
+                .build();
+    }
 }

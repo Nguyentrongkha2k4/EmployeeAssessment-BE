@@ -23,4 +23,5 @@ public class Criteria {
     private String name;
 
     private String description;
+
 }
